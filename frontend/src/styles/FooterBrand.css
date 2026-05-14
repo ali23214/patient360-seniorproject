@@ -1,0 +1,166 @@
+/* ═══════════════════════════════════════════════════════════════════
+   PATIENT 360° — FooterBrand Stylesheet
+   ───────────────────────────────────────────────────────────────────
+   Reusable animated heart-pulse logo for all page footers.
+   Three sizes: sm | md | lg
+   ═══════════════════════════════════════════════════════════════════ */
+
+.p360-footer-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 18px;
+  user-select: none;
+  direction: ltr;
+}
+
+/* ── Pulse SVG container ─────────────────────────────────────────── */
+.p360-footer-brand__pulse {
+  display: flex;
+  align-items: center;
+  overflow: visible;
+  flex-shrink: 0;
+}
+
+.p360-footer-brand__svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* ── Pulse line draw animation ───────────────────────────────────── */
+.p360-footer-brand__line {
+  stroke-dasharray: 120;
+  stroke-dashoffset: 120;
+  animation: p360FooterDrawPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes p360FooterDrawPulse {
+  0%   { stroke-dashoffset: 120;  opacity: 0.3; }
+  40%  { stroke-dashoffset: 0;    opacity: 1; }
+  100% { stroke-dashoffset: -120; opacity: 0.3; }
+}
+
+/* ── Dot moving across the line ──────────────────────────────────── */
+.p360-footer-brand__dot {
+  animation: p360FooterMoveDot 2.5s ease-in-out infinite;
+  filter: drop-shadow(0 0 3px rgba(162, 63, 151, 0.5));
+}
+
+@keyframes p360FooterMoveDot {
+  0%   { cx: 2;  opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { cx: 48; opacity: 0; }
+}
+
+/* ── Brand text ──────────────────────────────────────────────────── */
+.p360-footer-brand__text {
+  color: #FFFFFF;
+  font-family: 'Inter', 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: baseline;
+  line-height: 1;
+}
+
+/* ── Degree symbol — flashing ────────────────────────────────────── */
+.p360-footer-brand__degree {
+  font-size: 0.7em;
+  vertical-align: super;
+  margin-left: 2px;
+  animation: p360FooterDegreeFlash 1.5s ease-in-out infinite;
+}
+
+@keyframes p360FooterDegreeFlash {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   SIZE VARIANTS
+   ═══════════════════════════════════════════════════════════════════ */
+
+/* Small */
+.p360-footer-brand--sm .p360-footer-brand__pulse {
+  width: 56px;
+  height: 28px;
+}
+.p360-footer-brand--sm .p360-footer-brand__text {
+  font-size: 1.4rem;
+}
+.p360-footer-brand--sm {
+  gap: 12px;
+}
+
+/* Medium (default — matches the current footer logo size) */
+.p360-footer-brand--md .p360-footer-brand__pulse {
+  width: 80px;
+  height: 40px;
+}
+.p360-footer-brand--md .p360-footer-brand__text {
+  font-size: 2.2rem;
+}
+
+/* Large */
+.p360-footer-brand--lg .p360-footer-brand__pulse {
+  width: 100px;
+  height: 50px;
+}
+.p360-footer-brand--lg .p360-footer-brand__text {
+  font-size: 2.8rem;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+  .p360-footer-brand--md .p360-footer-brand__pulse {
+    width: 70px;
+    height: 35px;
+  }
+  .p360-footer-brand--md .p360-footer-brand__text {
+    font-size: 2rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .p360-footer-brand--md .p360-footer-brand__pulse {
+    width: 60px;
+    height: 30px;
+  }
+  .p360-footer-brand--md .p360-footer-brand__text {
+    font-size: 1.7rem;
+  }
+  .p360-footer-brand {
+    gap: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .p360-footer-brand--md .p360-footer-brand__pulse {
+    width: 52px;
+    height: 26px;
+  }
+  .p360-footer-brand--md .p360-footer-brand__text {
+    font-size: 1.4rem;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   ACCESSIBILITY — Reduced motion
+   ═══════════════════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  .p360-footer-brand__line,
+  .p360-footer-brand__dot,
+  .p360-footer-brand__degree {
+    animation: none;
+  }
+  .p360-footer-brand__line {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}

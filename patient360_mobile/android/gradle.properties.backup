@@ -1,0 +1,3 @@
+org.gradle.jvmargs=-Xmx2G -XX:MaxMetaspaceSize=1G -Dfile.encoding=UTF-8
+android.useAndroidX=true
+org.gradle.java.home=C:\\Program Files\\OpenJDK21U-jdk_x64_windows_hotspot_21.0.10_7\\jdk-21.0.10+7

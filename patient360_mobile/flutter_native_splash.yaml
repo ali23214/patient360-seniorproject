@@ -1,0 +1,27 @@
+# Generates the native splash screen — the screen shown by the OS while
+# Flutter boots. Produces Teal Medica-colored background + centered logo.
+#
+# Run:
+#   flutter pub run flutter_native_splash:create
+#
+# The color-only splash works even before `assets/images/app_icon.png`
+# exists; once the brand asset is dropped in, `image:` will be picked up
+# on the next regeneration.
+
+flutter_native_splash:
+  color: "#0D3B3E"
+  color_dark: "#0F1F21"
+
+  # Optional centered logo. Falls back to a plain background when missing.
+  image: assets/images/app_icon_foreground.png
+
+  android: true
+  ios: true
+  web: false
+
+  android_12:
+    color: "#0D3B3E"
+    icon_background_color: "#0D3B3E"
+    image: assets/images/app_icon_foreground.png
+
+  fullscreen: false

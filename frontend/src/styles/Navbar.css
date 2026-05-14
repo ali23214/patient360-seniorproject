@@ -1,0 +1,780 @@
+/* ═══════════════════════════════════════════════════════════════════
+   PATIENT 360° — NAVBAR STYLESHEET
+   ───────────────────────────────────────────────────────────────────
+   Design System : Teal Medica
+   Theme         : Light + Dark via [data-theme] on <html> or <body>
+   Direction     : RTL (Arabic primary)
+   ───────────────────────────────────────────────────────────────────
+   IMPORTANT: All COLOR tokens use --tm-* (defined in Login.css /
+   global theme stylesheet) so dark mode propagates correctly.
+   Only STRUCTURAL tokens (sizes, easings, fonts) use --p360-*.
+   No global body { ... } rules — those belong in a global stylesheet.
+   ═══════════════════════════════════════════════════════════════════ */
+
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+/* ───────────────────────────────────────────────────────────────────
+   STRUCTURAL DESIGN TOKENS (theme-independent)
+   ─────────────────────────────────────────────────────────────────── */
+:root {
+  /* Layout */
+  --p360-nav-height: 72px;
+  --p360-nav-height-scrolled: 60px;
+
+  /* Typography */
+  --p360-font-ar: 'Cairo', sans-serif;
+  --p360-font-en: 'Plus Jakarta Sans', sans-serif;
+
+  /* Motion */
+  --p360-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --p360-ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --p360-duration: 0.3s;
+  --p360-duration-fast: 0.18s;
+
+  /* Radius */
+  --p360-radius-sm: 8px;
+  --p360-radius-md: 12px;
+  --p360-radius-lg: 16px;
+  --p360-radius-full: 9999px;
+
+  /* Navbar-specific neutrals (used over the gradient bar) */
+  --p360-nav-text:        rgba(255, 255, 255, 0.92);
+  --p360-nav-text-muted:  rgba(255, 255, 255, 0.70);
+  --p360-nav-surface:     rgba(255, 255, 255, 0.08);
+  --p360-nav-surface-hi:  rgba(255, 255, 255, 0.14);
+  --p360-nav-border:      rgba(255, 255, 255, 0.15);
+
+  /* Navbar gradient — light mode default */
+  --p360-nav-bg:          linear-gradient(135deg, #0D3B3E 0%, #154F53 50%, #0D3B3E 100%);
+  --p360-nav-bg-scrolled: linear-gradient(135deg, rgba(13, 59, 62, 0.97) 0%, rgba(21, 79, 83, 0.97) 100%);
+  --p360-nav-shadow:      0 8px 40px rgba(13, 59, 62, 0.16), 0 1px 0 rgba(77, 182, 172, 0.10);
+
+  /* Login button gradient (theme-independent) */
+  --p360-btn-login-bg:    linear-gradient(135deg, #00897B 0%, #4DB6AC 100%);
+  --p360-btn-login-glow:  rgba(0, 137, 123, 0.30);
+  --p360-btn-login-glow-hi: rgba(0, 137, 123, 0.40);
+}
+
+/* ───────────────────────────────────────────────────────────────────
+   DARK MODE — Navbar gradient & shadow override
+   ─────────────────────────────────────────────────────────────────── */
+[data-theme="dark"] {
+  --p360-nav-bg:          linear-gradient(135deg, #0A1A1B 0%, #0F2426 50%, #0A1A1B 100%);
+  --p360-nav-bg-scrolled: linear-gradient(135deg, rgba(10, 26, 27, 0.97) 0%, rgba(15, 36, 38, 0.97) 100%);
+  --p360-nav-shadow:      0 8px 40px rgba(0, 0, 0, 0.35), 0 1px 0 rgba(77, 182, 172, 0.08);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   NAVBAR — Main container
+   ═══════════════════════════════════════════════════════════════════ */
+
+.p360-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  height: var(--p360-nav-height);
+  background: var(--p360-nav-bg);
+  transition:
+    height var(--p360-duration) var(--p360-ease),
+    background var(--p360-duration) var(--p360-ease),
+    box-shadow var(--p360-duration) var(--p360-ease);
+}
+
+.p360-navbar--scrolled {
+  height: var(--p360-nav-height-scrolled);
+  background: var(--p360-nav-bg-scrolled);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: var(--p360-nav-shadow);
+}
+
+/* ── Bottom accent line ──────────────────────────────────────────── */
+.p360-navbar-accent {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    #4DB6AC 20%,
+    #00897B 50%,
+    #4DB6AC 80%,
+    transparent 100%
+  );
+  opacity: 0.5;
+  transition: opacity var(--p360-duration) var(--p360-ease);
+  pointer-events: none;
+}
+
+.p360-navbar--scrolled .p360-navbar-accent {
+  opacity: 0.8;
+}
+
+[data-theme="dark"] .p360-navbar-accent {
+  opacity: 0.35;
+}
+
+[data-theme="dark"] .p360-navbar--scrolled .p360-navbar-accent {
+  opacity: 0.6;
+}
+
+/* ── Inner container ─────────────────────────────────────────────── */
+.p360-navbar-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+  max-width: 100%;
+  padding: 0 clamp(20px, 3vw, 60px);
+  direction: ltr; /* logo on left, nav on right */
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   LOGO SECTION
+   ═══════════════════════════════════════════════════════════════════ */
+
+.p360-navbar-brand {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.p360-logo-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 8px;
+  border-radius: var(--p360-radius-sm);
+  transition: background var(--p360-duration-fast) var(--p360-ease);
+  text-decoration: none;
+  outline: none;
+  font-family: inherit;
+}
+
+.p360-logo-btn:hover {
+  background: var(--p360-nav-surface);
+}
+
+.p360-logo-btn:focus-visible {
+  outline: 2px solid #4DB6AC;
+  outline-offset: 2px;
+}
+
+/* ── Logo SVG ────────────────────────────────────────────────────── */
+.p360-logo-icon {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  transition: width var(--p360-duration) var(--p360-ease),
+              height var(--p360-duration) var(--p360-ease);
+}
+
+.p360-navbar--scrolled .p360-logo-icon {
+  width: 34px;
+  height: 34px;
+}
+
+.p360-logo-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Animated pulse-line on the logo */
+.p360-pulse-path {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: p360PulseDraw 3s ease-in-out infinite;
+}
+
+@keyframes p360PulseDraw {
+  0%   { stroke-dashoffset: 100; opacity: 0; }
+  20%  { opacity: 1; }
+  50%  { stroke-dashoffset: 0;   opacity: 1; }
+  80%  { opacity: 1; }
+  100% { stroke-dashoffset: -100; opacity: 0; }
+}
+
+/* ── Logo text ───────────────────────────────────────────────────── */
+.p360-logo-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  line-height: 1;
+}
+
+.p360-logo-name {
+  color: #FFFFFF;
+  font-family: var(--p360-font-en);
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  display: inline-flex;
+  align-items: baseline;
+  transition: font-size var(--p360-duration) var(--p360-ease);
+}
+
+.p360-navbar--scrolled .p360-logo-name {
+  font-size: 1.15rem;
+}
+
+.p360-logo-degree {
+  font-size: 0.65em;
+  vertical-align: super;
+  margin-left: 1px;
+  color: #4DB6AC;
+  animation: p360DegreePulse 2.5s ease-in-out infinite;
+}
+
+@keyframes p360DegreePulse {
+  0%, 100% { opacity: 1; text-shadow: 0 0 0 transparent; }
+  50%      { opacity: 0.6; text-shadow: 0 0 8px rgba(77, 182, 172, 0.4); }
+}
+
+.p360-logo-tagline {
+  color: #4DB6AC;
+  font-family: var(--p360-font-ar);
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  margin-top: 2px;
+  opacity: 0.85;
+  transition: opacity var(--p360-duration) var(--p360-ease),
+              font-size var(--p360-duration) var(--p360-ease);
+}
+
+.p360-navbar--scrolled .p360-logo-tagline {
+  opacity: 0;
+  font-size: 0;
+  margin: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   NAVIGATION SECTION
+   ═══════════════════════════════════════════════════════════════════ */
+
+.p360-navbar-nav {
+  display: flex;
+  align-items: center;
+  direction: rtl;
+}
+
+.p360-guest-section,
+.p360-auth-section {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.p360-nav-item {
+  position: relative;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   BUTTONS — Base
+   ═══════════════════════════════════════════════════════════════════ */
+
+.p360-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  cursor: pointer;
+  font-family: var(--p360-font-ar);
+  font-weight: 600;
+  font-size: 0.9rem;
+  line-height: 1;
+  white-space: nowrap;
+  text-decoration: none;
+  outline: none;
+  transition: all var(--p360-duration-fast) var(--p360-ease);
+}
+
+.p360-btn:focus-visible {
+  outline: 2px solid #4DB6AC;
+  outline-offset: 2px;
+}
+
+/* ── Nav button (dropdown trigger) ────────────────────────────────── */
+.p360-btn--nav {
+  padding: 8px 14px;
+  background: transparent;
+  color: var(--p360-nav-text);
+  border-radius: var(--p360-radius-sm);
+}
+
+.p360-btn--nav:hover {
+  background: var(--p360-nav-surface);
+  color: #FFFFFF;
+}
+
+.p360-btn--nav.p360-btn--active {
+  background: var(--p360-nav-surface-hi);
+  color: #4DB6AC;
+}
+
+/* ── Login button ─────────────────────────────────────────────────── */
+.p360-btn--login {
+  padding: 9px 22px;
+  background: var(--p360-btn-login-bg);
+  color: #FFFFFF;
+  border-radius: var(--p360-radius-full);
+  font-weight: 700;
+  font-size: 0.88rem;
+  box-shadow: 0 2px 12px var(--p360-btn-login-glow);
+  position: relative;
+  overflow: hidden;
+}
+
+.p360-btn--login::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.15) 0%, transparent 50%);
+  opacity: 0;
+  transition: opacity var(--p360-duration-fast) var(--p360-ease);
+}
+
+.p360-btn--login:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px var(--p360-btn-login-glow-hi),
+              0 0 20px rgba(77, 182, 172, 0.15);
+}
+
+.p360-btn--login:hover::before {
+  opacity: 1;
+}
+
+.p360-btn--login:active {
+  transform: translateY(0);
+}
+
+/* ── Logout button ────────────────────────────────────────────────── */
+.p360-btn--logout {
+  padding: 8px 18px;
+  background: var(--p360-nav-surface);
+  color: var(--p360-nav-text);
+  border-radius: var(--p360-radius-full);
+  border: 1px solid var(--p360-nav-border);
+}
+
+.p360-btn--logout:hover {
+  background: rgba(239, 83, 80, 0.12);
+  border-color: rgba(239, 83, 80, 0.35);
+  color: #EF5350;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   CHEVRON
+   ═══════════════════════════════════════════════════════════════════ */
+
+.p360-chevron {
+  transition: transform var(--p360-duration-fast) var(--p360-ease-spring);
+  flex-shrink: 0;
+}
+
+.p360-chevron--open {
+  transform: rotate(180deg);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   USER BADGE (Authenticated)
+   ═══════════════════════════════════════════════════════════════════ */
+
+.p360-user-badge {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 14px 6px 8px;
+  background: var(--p360-nav-surface);
+  border: 1px solid var(--p360-nav-border);
+  border-radius: var(--p360-radius-full);
+  transition: background var(--p360-duration-fast) var(--p360-ease),
+              border-color var(--p360-duration-fast) var(--p360-ease);
+}
+
+.p360-user-badge:hover {
+  background: var(--p360-nav-surface-hi);
+  border-color: rgba(77, 182, 172, 0.35);
+}
+
+.p360-user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #00897B, #4DB6AC);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0, 137, 123, 0.25);
+}
+
+.p360-user-details {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.15;
+  direction: rtl;
+}
+
+.p360-user-greeting {
+  font-size: 0.65rem;
+  color: #4DB6AC;
+  font-weight: 500;
+  font-family: var(--p360-font-ar);
+}
+
+.p360-user-name {
+  font-size: 0.85rem;
+  color: #FFFFFF;
+  font-weight: 700;
+  font-family: var(--p360-font-ar);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   THEME TOGGLE BUTTON
+   ═══════════════════════════════════════════════════════════════════ */
+
+.p360-theme-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  padding: 0;
+  border: 1.5px solid var(--p360-nav-border);
+  border-radius: 50%;
+  background: var(--p360-nav-surface);
+  color: var(--p360-nav-text);
+  cursor: pointer;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+  transition:
+    background var(--p360-duration) var(--p360-ease),
+    border-color var(--p360-duration) var(--p360-ease),
+    color var(--p360-duration) var(--p360-ease),
+    transform var(--p360-duration-fast) var(--p360-ease-spring),
+    box-shadow var(--p360-duration) var(--p360-ease);
+}
+
+.p360-theme-btn:hover {
+  background: var(--p360-nav-surface-hi);
+  border-color: #4DB6AC;
+  transform: scale(1.08);
+  box-shadow: 0 0 16px rgba(77, 182, 172, 0.25);
+}
+
+.p360-theme-btn:active {
+  transform: scale(0.94);
+}
+
+.p360-theme-btn:focus-visible {
+  outline: 2px solid #4DB6AC;
+  outline-offset: 2px;
+}
+
+/* Dark mode active state — warm sun glow */
+.p360-theme-btn--dark {
+  border-color: rgba(255, 213, 79, 0.30);
+  background: rgba(255, 213, 79, 0.10);
+  color: #FFD54F;
+}
+
+.p360-theme-btn--dark:hover {
+  background: rgba(255, 213, 79, 0.18);
+  border-color: rgba(255, 213, 79, 0.55);
+  box-shadow: 0 0 16px rgba(255, 213, 79, 0.25);
+}
+
+/* Icon container */
+.p360-theme-btn__icons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  position: relative;
+}
+
+.p360-theme-btn__moon,
+.p360-theme-btn__sun {
+  animation: p360IconRotateIn 0.45s var(--p360-ease-spring);
+}
+
+@keyframes p360IconRotateIn {
+  0%   { opacity: 0; transform: rotate(-45deg) scale(0.6); }
+  100% { opacity: 1; transform: rotate(0deg) scale(1); }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   DROPDOWN MENUS
+   ═══════════════════════════════════════════════════════════════════ */
+
+.p360-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  z-index: 1001;
+  min-width: 240px;
+  animation: p360DropdownIn 0.25s var(--p360-ease-spring) forwards;
+}
+
+@keyframes p360DropdownIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.p360-dropdown-inner {
+  background: var(--tm-card-bg, #FFFFFF);
+  border: 1px solid var(--tm-card-border, rgba(13, 59, 62, 0.08));
+  border-radius: var(--p360-radius-md);
+  box-shadow:
+    0 8px 40px rgba(13, 59, 62, 0.18),
+    0 0 0 1px rgba(13, 59, 62, 0.04);
+  padding: 6px;
+  overflow: hidden;
+}
+
+[data-theme="dark"] .p360-dropdown-inner {
+  background: var(--tm-card-bg, #162626);
+  border-color: var(--tm-card-border, rgba(77, 182, 172, 0.12));
+  box-shadow:
+    0 8px 40px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(77, 182, 172, 0.06);
+}
+
+/* ── Dropdown items ──────────────────────────────────────────────── */
+.p360-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  color: var(--tm-text, #0D3B3E);
+  text-decoration: none;
+  border-radius: var(--p360-radius-sm);
+  font-size: 0.88rem;
+  font-weight: 600;
+  font-family: var(--p360-font-ar);
+  cursor: pointer;
+  transition: all var(--p360-duration-fast) var(--p360-ease);
+  direction: rtl;
+  animation: p360ItemSlide 0.25s var(--p360-ease) forwards;
+  opacity: 0;
+}
+
+/* Reset button defaults so dropdown items look identical to anchors */
+button.p360-dropdown-item {
+  width: 100%;
+  text-align: right;
+  font-family: inherit;
+  border: none;
+  background: transparent;
+}
+
+@keyframes p360ItemSlide {
+  from { opacity: 0; transform: translateX(8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.p360-dropdown-item:hover {
+  background: var(--tm-surface, #E0F2F1);
+  color: var(--tm-action, #00897B);
+}
+
+.p360-dropdown-item:active {
+  background: var(--tm-surface, #B2DFDB);
+}
+
+[data-theme="dark"] .p360-dropdown-item {
+  color: var(--tm-text, #E0F2F1);
+}
+
+[data-theme="dark"] .p360-dropdown-item:hover {
+  background: rgba(77, 182, 172, 0.10);
+  color: #4DB6AC;
+}
+
+[data-theme="dark"] .p360-dropdown-item:active {
+  background: rgba(77, 182, 172, 0.16);
+}
+
+/* ── Dropdown item icon container ────────────────────────────────── */
+.p360-dropdown-item-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--tm-surface, #E0F2F1);
+  border-radius: var(--p360-radius-sm);
+  color: var(--tm-action, #00897B);
+  flex-shrink: 0;
+  transition: all var(--p360-duration-fast) var(--p360-ease);
+}
+
+.p360-dropdown-item:hover .p360-dropdown-item-icon {
+  background: rgba(0, 137, 123, 0.18);
+  transform: scale(1.06);
+}
+
+[data-theme="dark"] .p360-dropdown-item-icon {
+  background: rgba(77, 182, 172, 0.12);
+  color: #4DB6AC;
+}
+
+[data-theme="dark"] .p360-dropdown-item:hover .p360-dropdown-item-icon {
+  background: rgba(77, 182, 172, 0.22);
+}
+
+.p360-dropdown-item-label {
+  flex: 1;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   OVERLAY (Backdrop for open dropdowns)
+   ═══════════════════════════════════════════════════════════════════ */
+
+.p360-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  background: transparent;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   RESPONSIVE — Tablet & Mobile
+   ═══════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 992px) {
+  .p360-navbar-container {
+    padding: 0 20px;
+  }
+
+  .p360-logo-tagline {
+    display: none;
+  }
+
+  .p360-logo-name {
+    font-size: 1.15rem;
+  }
+
+  .p360-navbar--scrolled .p360-logo-name {
+    font-size: 1.05rem;
+  }
+
+  .p360-btn--nav {
+    padding: 8px 10px;
+    font-size: 0.85rem;
+  }
+
+  .p360-btn--login {
+    padding: 8px 16px;
+    font-size: 0.85rem;
+  }
+
+  .p360-user-details {
+    display: none;
+  }
+
+  .p360-user-badge {
+    padding: 4px;
+    border-radius: 50%;
+  }
+
+  .p360-theme-btn {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --p360-nav-height: 60px;
+    --p360-nav-height-scrolled: 54px;
+  }
+
+  .p360-navbar-container {
+    padding: 0 12px;
+  }
+
+  .p360-logo-icon {
+    width: 32px;
+    height: 32px;
+  }
+
+  .p360-logo-name {
+    font-size: 1rem;
+  }
+
+  .p360-guest-section,
+  .p360-auth-section {
+    gap: 6px;
+  }
+
+  .p360-btn--nav span:not(.p360-chevron) {
+    font-size: 0.82rem;
+  }
+
+  .p360-btn--login span,
+  .p360-btn--logout span {
+    display: none;
+  }
+
+  .p360-btn--login,
+  .p360-btn--logout {
+    padding: 8px;
+    border-radius: 50%;
+  }
+
+  .p360-dropdown-menu {
+    right: -10px;
+    min-width: 210px;
+  }
+
+  .p360-theme-btn {
+    width: 34px;
+    height: 34px;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   ACCESSIBILITY — Reduced Motion
+   ═══════════════════════════════════════════════════════════════════ */
+
+@media (prefers-reduced-motion: reduce) {
+  .p360-navbar,
+  .p360-navbar *,
+  .p360-navbar *::before,
+  .p360-navbar *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   PRINT — Hide navbar
+   ═══════════════════════════════════════════════════════════════════ */
+
+@media print {
+  .p360-navbar {
+    display: none;
+  }
+}

@@ -1,0 +1,1792 @@
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&family=Playfair+Display:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Cairo', sans-serif;
+  direction: rtl;
+  margin: 0;
+  background-color: #f9fafb;
+  color: #1f2937;
+  padding-top: 80px;
+}
+
+.min-h-screen {
+  min-height: 100vh;
+}
+
+.bg-gray-50 {
+  background-color: #f9fafb;
+}
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-4xl {
+  font-size: 2.25rem;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.text-primary-600 {
+  color: #2563eb;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.mb-8 {
+  margin-bottom: 2rem;
+}
+
+.text-gray-600 {
+  color: #6b7280;
+}
+
+.btn-primary {
+  background-color: #2563eb;
+  color: white;
+  font-weight: 500;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-family: 'Cairo', sans-serif;
+}
+
+.btn-primary:hover {
+  background-color: #1d4ed8;
+}
+
+/* تسجيل الدخول */
+.login-container {
+  min-height: calc(100vh - 80px);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.login-card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+  padding: 0;
+  width: 100%;
+  max-width: 450px;
+  overflow: hidden;
+}
+
+.login-header {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  color: white;
+  padding: 40px 30px;
+  text-align: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.logo-icon {
+  font-size: 3rem;
+  margin-left: 15px;
+}
+
+.logo-text {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0;
+  font-family: 'Cairo', sans-serif;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin: 0;
+  font-family: 'Cairo', sans-serif;
+}
+
+.form-container {
+  padding: 40px 30px;
+}
+
+.form-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #1f2937;
+  font-family: 'Cairo', sans-serif;
+}
+
+.form-subtitle {
+  color: #6b7280;
+  margin-bottom: 30px;
+  font-family: 'Cairo', sans-serif;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.9rem;
+  font-family: 'Cairo', sans-serif;
+}
+
+.input-container {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 15px 15px 15px 45px;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  font-family: 'Cairo', sans-serif;
+  box-sizing: border-box;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-input.error {
+  border-color: #ef4444;
+}
+
+.user-types-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.user-type-card {
+  position: relative;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px 15px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.user-type-card:hover {
+  border-color: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(37, 99, 235, 0.15);
+}
+
+.user-type-card.selected {
+  border-color: #2563eb;
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  color: #1d4ed8;
+}
+
+.user-type-icon {
+  font-size: 2rem;
+}
+
+.user-type-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  font-family: 'Cairo', sans-serif;
+}
+
+.selected-indicator {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  background: #10b981;
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.submit-button {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  color: white;
+  border: none;
+  padding: 18px;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Cairo', sans-serif;
+}
+
+.submit-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+}
+
+.submit-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid transparent;
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error-message {
+  color: #ef4444;
+  font-size: 0.85rem;
+  margin: 0;
+  font-family: 'Cairo', sans-serif;
+}
+
+.footer-text {
+  text-align: center;
+  color: #6b7280;
+  font-size: 0.85rem;
+  margin-top: 25px;
+  font-family: 'Cairo', sans-serif;
+}
+
+/* Professional Medical Navbar - مُقسم لجزئين */
+.navbar {
+  background: rgba(14, 27, 41, 0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 40px rgba(14, 27, 41, 0.15);
+}
+
+.navbar-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 80px;
+  direction: ltr;
+}
+
+/* الجزء الأول: نبضة القلب والشعار على اليسار */
+.navbar-left-section {
+  display: flex;
+  align-items: center;
+  padding-left: 40px;
+  flex: 0 0 auto;
+}
+
+/* نبضة القلب الصغيرة والواضحة */
+.heart-pulse-small {
+  width: 50px;
+  height: 18px;
+  margin-right: 12px;
+  display: flex;
+  align-items: center;
+}
+
+.heart-pulse-svg-small {
+  width: 100%;
+  height: 100%;
+}
+
+.pulse-line-small {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: drawPulseSmall 2s ease-in-out infinite;
+}
+
+.pulse-dot-small {
+  animation: moveDotSmall 2s ease-in-out infinite;
+}
+
+@keyframes drawPulseSmall {
+  0% {
+    stroke-dashoffset: 100;
+  }
+  50% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -100;
+  }
+}
+
+@keyframes moveDotSmall {
+  0% {
+    cx: 3;
+  }
+  100% {
+    cx: 57;
+  }
+}
+
+/* نص جميل للشعار */
+.brand-text {
+  color: white;
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.65rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  text-shadow: 0 2px 10px rgba(255, 255, 255, 0.1);
+}
+
+.brand-text:hover {
+  transform: scale(1.02);
+  color: #f8fafc;
+  text-shadow: 0 2px 15px rgba(255, 255, 255, 0.2);
+}
+
+/* الجزء الثاني: جميع الأزرار على اليمين */
+.navbar-right-section {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  direction: rtl;
+  padding-right: 40px;
+  flex: 0 0 auto;
+}
+
+/* عناصر القائمة */
+.nav-item {
+  position: relative;
+}
+
+.nav-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 22px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: 'Cairo', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.nav-button:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  transform: translateY(-1px);
+}
+
+.nav-button.active {
+  background: rgba(37, 99, 235, 0.15);
+  color: #93c5fd;
+}
+
+/* أسهم القوائم المنسدلة */
+.dropdown-arrow {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.3s ease;
+  stroke-width: 2;
+}
+
+.dropdown-arrow.rotated {
+  transform: rotate(180deg);
+}
+
+/* رمز الكرة الأرضية */
+.language-globe {
+  font-size: 1.1rem;
+  animation: rotate 15s linear infinite;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* القوائم المنسدلة */
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(25px);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.12),
+    0 8px 25px rgba(14, 27, 41, 0.08);
+  min-width: 220px;
+  padding: 8px;
+  animation: dropdownSlide 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1001;
+}
+
+@keyframes dropdownSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  color: #374151;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  font-family: 'Cairo', sans-serif;
+  transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background: rgba(37, 99, 235, 0.06);
+  color: #1d4ed8;
+  transform: translateX(-2px);
+}
+
+.dropdown-item.active-lang {
+  background: rgba(16, 185, 129, 0.08);
+  color: #059669;
+}
+
+.dropdown-icon {
+  font-size: 1rem;
+  width: 18px;
+  text-align: center;
+}
+
+/* خلفية القوائم المنسدلة */
+.dropdown-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+  background: transparent;
+}
+
+/* زر تسجيل الدخول النظيف */
+.login-button-clean {
+  background: transparent !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  border: none !important;
+  font-weight: 600 !important;
+}
+
+.login-button-clean:hover {@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Cairo', sans-serif;
+  direction: rtl;
+  margin: 0;
+  background-color: #f9fafb;
+  color: #1f2937;
+  padding-top: 80px;
+}
+
+.min-h-screen {
+  min-height: 100vh;
+}
+
+.bg-gray-50 {
+  background-color: #f9fafb;
+}
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-4xl {
+  font-size: 2.25rem;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.text-primary-600 {
+  color: #2563eb;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.mb-8 {
+  margin-bottom: 2rem;
+}
+
+.text-gray-600 {
+  color: #6b7280;
+}
+
+.btn-primary {
+  background-color: #2563eb;
+  color: white;
+  font-weight: 500;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-family: 'Cairo', sans-serif;
+}
+
+.btn-primary:hover {
+  background-color: #1d4ed8;
+}
+
+/* تسجيل الدخول */
+.login-container {
+  min-height: calc(100vh - 80px);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.login-card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+  padding: 0;
+  width: 100%;
+  max-width: 450px;
+  overflow: hidden;
+}
+
+.login-header {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  color: white;
+  padding: 40px 30px;
+  text-align: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.logo-icon {
+  font-size: 3rem;
+  margin-left: 15px;
+}
+
+.logo-text {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0;
+  font-family: 'Cairo', sans-serif;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin: 0;
+  font-family: 'Cairo', sans-serif;
+}
+
+.form-container {
+  padding: 40px 30px;
+}
+
+.form-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #1f2937;
+  font-family: 'Cairo', sans-serif;
+}
+
+.form-subtitle {
+  color: #6b7280;
+  margin-bottom: 30px;
+  font-family: 'Cairo', sans-serif;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.9rem;
+  font-family: 'Cairo', sans-serif;
+}
+
+.input-container {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 15px 15px 15px 45px;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  font-family: 'Cairo', sans-serif;
+  box-sizing: border-box;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-input.error {
+  border-color: #ef4444;
+}
+
+.user-types-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.user-type-card {
+  position: relative;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px 15px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.user-type-card:hover {
+  border-color: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(37, 99, 235, 0.15);
+}
+
+.user-type-card.selected {
+  border-color: #2563eb;
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  color: #1d4ed8;
+}
+
+.user-type-icon {
+  font-size: 2rem;
+}
+
+.user-type-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  font-family: 'Cairo', sans-serif;
+}
+
+.selected-indicator {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  background: #10b981;
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.submit-button {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  color: white;
+  border: none;
+  padding: 18px;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Cairo', sans-serif;
+}
+
+.submit-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+}
+
+.submit-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid transparent;
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error-message {
+  color: #ef4444;
+  font-size: 0.85rem;
+  margin: 0;
+  font-family: 'Cairo', sans-serif;
+}
+
+.footer-text {
+  text-align: center;
+  color: #6b7280;
+  font-size: 0.85rem;
+  margin-top: 25px;
+  font-family: 'Cairo', sans-serif;
+}
+
+/* Professional Medical Navbar */
+.navbar {
+  background: rgba(14, 27, 41, 0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 40px rgba(14, 27, 41, 0.15);
+}
+
+.navbar-container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 80px;
+  direction: ltr;
+}
+
+/* Brand على أقصى اليسار مع نبضة القلب */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  user-select: none;
+  cursor: pointer;
+  padding-left: 40px;
+  flex: 0 0 auto;
+}
+
+.heart-pulse-left {
+  width: 80px;
+  height: 30px;
+  margin-right: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.heart-pulse-svg-left {
+  width: 100%;
+  height: 100%;
+}
+
+.pulse-line-left {
+  stroke-dasharray: 150;
+  stroke-dashoffset: 150;
+  animation: drawPulseLeft 2.5s ease-in-out infinite;
+}
+
+.pulse-dot-left {
+  animation: moveDotLeft 2.5s ease-in-out infinite;
+}
+
+@keyframes drawPulseLeft {
+  0% {
+    stroke-dashoffset: 150;
+  }
+  40% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -150;
+  }
+}
+
+@keyframes moveDotLeft {
+  0% {
+    cx: 5;
+  }
+  100% {
+    cx: 75;
+  }
+}
+
+.brand-text {
+  color: white;
+  font-family: 'Inter', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.brand-text:hover {
+  transform: scale(1.02);
+  color: #f8fafc;
+}
+
+/* القائمة على أقصى اليمين */
+.navbar-menu {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  direction: rtl;
+  padding-right: 40px;
+  flex: 0 0 auto;
+}
+
+/* عناصر القائمة */
+.nav-item {
+  position: relative;
+}
+
+.nav-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 22px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: 'Cairo', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.nav-button:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  transform: translateY(-1px);
+}
+
+.nav-button.active {
+  background: rgba(37, 99, 235, 0.15);
+  color: #93c5fd;
+}
+
+/* أسهم القوائم المنسدلة */
+.dropdown-arrow {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.3s ease;
+  stroke-width: 2;
+}
+
+.dropdown-arrow.rotated {
+  transform: rotate(180deg);
+}
+
+/* رمز الكرة الأرضية */
+.language-globe {
+  font-size: 1.1rem;
+  animation: rotate 15s linear infinite;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* القوائم المنسدلة */
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(25px);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.12),
+    0 8px 25px rgba(14, 27, 41, 0.08);
+  min-width: 220px;
+  padding: 8px;
+  animation: dropdownSlide 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1001;
+}
+
+@keyframes dropdownSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  color: #374151;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  font-family: 'Cairo', sans-serif;
+  transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background: rgba(37, 99, 235, 0.06);
+  color: #1d4ed8;
+  transform: translateX(-2px);
+}
+
+.dropdown-item.active-lang {
+  background: rgba(16, 185, 129, 0.08);
+  color: #059669;
+}
+
+.dropdown-icon {
+  font-size: 1rem;
+  width: 18px;
+  text-align: center;
+}
+
+/* خلفية القوائم المنسدلة */
+.dropdown-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+  background: transparent;
+}
+
+/* زر تسجيل الدخول بدون حدود */
+.login-button-clean {
+  background: transparent !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  border: none !important;
+  font-weight: 600 !important;
+}
+
+.login-button-clean:hover {
+  background: rgba(255, 255, 255, 0.08) !important;
+  color: white !important;
+  transform: translateY(-1px) !important;
+}
+
+.login-icon {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.3s ease;
+}
+
+.login-button-clean:hover .login-icon {
+  transform: translateX(2px);
+}
+
+/* استجابة للشاشات الصغيرة@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&family=Source+Sans+Pro:wght@400;500;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Cairo', sans-serif;
+  direction: rtl;
+  margin: 0;
+  background-color: #f9fafb;
+  color: #1f2937;
+  padding-top: 80px;
+}
+
+.min-h-screen {
+  min-height: 100vh;
+}
+
+.bg-gray-50 {
+  background-color: #f9fafb;
+}
+
+.flex {
+  display: flex;
+}
+
+.items-center {
+  align-items: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-4xl {
+  font-size: 2.25rem;
+}
+
+.font-bold {
+  font-weight: 700;
+}
+
+.text-primary-600 {
+  color: #2563eb;
+}
+
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
+.mb-8 {
+  margin-bottom: 2rem;
+}
+
+.text-gray-600 {
+  color: #6b7280;
+}
+
+.btn-primary {
+  background-color: #2563eb;
+  color: white;
+  font-weight: 500;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-family: 'Cairo', sans-serif;
+}
+
+.btn-primary:hover {
+  background-color: #1d4ed8;
+}
+
+/* تسجيل الدخول */
+.login-container {
+  min-height: calc(100vh - 80px);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.login-card {
+  background: white;
+  border-radius: 20px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+  padding: 0;
+  width: 100%;
+  max-width: 450px;
+  overflow: hidden;
+}
+
+.login-header {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  color: white;
+  padding: 40px 30px;
+  text-align: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.logo-icon {
+  font-size: 3rem;
+  margin-left: 15px;
+}
+
+.logo-text {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin: 0;
+  font-family: 'Cairo', sans-serif;
+}
+
+.subtitle {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  margin: 0;
+  font-family: 'Cairo', sans-serif;
+}
+
+.form-container {
+  padding: 40px 30px;
+}
+
+.form-title {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #1f2937;
+  font-family: 'Cairo', sans-serif;
+}
+
+.form-subtitle {
+  color: #6b7280;
+  margin-bottom: 30px;
+  font-family: 'Cairo', sans-serif;
+}
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-label {
+  font-weight: 600;
+  color: #374151;
+  font-size: 0.9rem;
+  font-family: 'Cairo', sans-serif;
+}
+
+.input-container {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 15px 15px 15px 45px;
+  border: 2px solid #e5e7eb;
+  border-radius: 10px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  font-family: 'Cairo', sans-serif;
+  box-sizing: border-box;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-input.error {
+  border-color: #ef4444;
+}
+
+.user-types-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.user-type-card {
+  position: relative;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px 15px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.user-type-card:hover {
+  border-color: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 20px rgba(37, 99, 235, 0.15);
+}
+
+.user-type-card.selected {
+  border-color: #2563eb;
+  background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+  color: #1d4ed8;
+}
+
+.user-type-icon {
+  font-size: 2rem;
+}
+
+.user-type-label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  font-family: 'Cairo', sans-serif;
+}
+
+.selected-indicator {
+  position: absolute;
+  top: -8px;
+  left: -8px;
+  background: #10b981;
+  color: white;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.submit-button {
+  background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  color: white;
+  border: none;
+  padding: 18px;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-family: 'Cairo', sans-serif;
+}
+
+.submit-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(37, 99, 235, 0.4);
+}
+
+.submit-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid transparent;
+  border-top: 2px solid white;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.error-message {
+  color: #ef4444;
+  font-size: 0.85rem;
+  margin: 0;
+  font-family: 'Cairo', sans-serif;
+}
+
+.footer-text {
+  text-align: center;
+  color: #6b7280;
+  font-size: 0.85rem;
+  margin-top: 25px;
+  font-family: 'Cairo', sans-serif;
+}
+
+/* Professional Medical Navbar */
+.navbar {
+  background: rgba(14, 27, 41, 0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  width: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 40px rgba(14, 27, 41, 0.15);
+}
+
+.navbar-container {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 40px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 80px;
+  direction: ltr;
+}
+
+/* Brand مع نبضة القلب داخل الاسم */
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  user-select: none;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.brand-text {
+  color: white;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 600;
+  letter-spacing: 1.5px;
+  display: flex;
+  align-items: center;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.brand-text:hover {
+  transform: scale(1.02);
+  color: #f8fafc;
+}
+
+/* نبضة القلب داخل الاسم */
+.heart-pulse-inline {
+  display: inline-flex;
+  align-items: center;
+  width: 60px;
+  height: 25px;
+  margin: 0 2px;
+}
+
+.heart-pulse-svg-inline {
+  width: 100%;
+  height: 100%;
+}
+
+.pulse-line-inline {
+  stroke-dasharray: 100;
+  stroke-dashoffset: 100;
+  animation: drawPulseInline 2.5s ease-in-out infinite;
+}
+
+.pulse-dot-inline {
+  animation: moveDotInline 2.5s ease-in-out infinite;
+}
+
+@keyframes drawPulseInline {
+  0% {
+    stroke-dashoffset: 100;
+  }
+  40% {
+    stroke-dashoffset: 0;
+  }
+  100% {
+    stroke-dashoffset: -100;
+  }
+}
+
+@keyframes moveDotInline {
+  0% {
+    cx: 5;
+  }
+  100% {
+    cx: 55;
+  }
+}
+
+/* القائمة على أقصى اليمين */
+.navbar-menu {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  direction: rtl;
+  margin-right: auto;
+}
+
+/* عناصر القائمة */
+.nav-item {
+  position: relative;
+}
+
+.nav-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 22px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  font-family: 'Cairo', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.nav-button:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: white;
+  transform: translateY(-1px);
+}
+
+.nav-button.active {
+  background: rgba(37, 99, 235, 0.15);
+  color: #93c5fd;
+}
+
+/* أسهم القوائم المنسدلة */
+.dropdown-arrow {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.3s ease;
+  stroke-width: 2;
+}
+
+.dropdown-arrow.rotated {
+  transform: rotate(180deg);
+}
+
+/* رمز الكرة الأرضية */
+.language-globe {
+  font-size: 1.1rem;
+  animation: rotate 15s linear infinite;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* القوائم المنسدلة */
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(25px);
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.12),
+    0 8px 25px rgba(14, 27, 41, 0.08);
+  min-width: 220px;
+  padding: 8px;
+  animation: dropdownSlide 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1001;
+}
+
+@keyframes dropdownSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-8px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  color: #374151;
+  text-decoration: none;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  font-family: 'Cairo', sans-serif;
+  transition: all 0.2s ease;
+}
+
+.dropdown-item:hover {
+  background: rgba(37, 99, 235, 0.06);
+  color: #1d4ed8;
+  transform: translateX(-2px);
+}
+
+.dropdown-item.active-lang {
+  background: rgba(16, 185, 129, 0.08);
+  color: #059669;
+}
+
+.dropdown-icon {
+  font-size: 1rem;
+  width: 18px;
+  text-align: center;
+}
+
+/* خلفية القوائم المنسدلة */
+.dropdown-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 999;
+  background: transparent;
+}
+
+/* زر تسجيل الدخول الشفاف */
+.login-button-transparent {
+  background: transparent !important;
+  color: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  font-weight: 600 !important;
+  margin-right: 8px;
+}
+
+.login-button-transparent:hover {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: white !important;
+  border-color: rgba(255, 255, 255, 0.5) !important;
+  transform: translateY(-1px) !important;
+}
+
+.login-icon {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.3s ease;
+}
+
+.login-button-transparent:hover .login-icon {
+  transform: translateX(2px);
+}
+
+/* استجابة للشاشات الصغيرة */
+@media (max-width: 1024px) {
+  .navbar-container {
+    padding: 0 25px;
+  }
+  
+  .nav-button {
+    padding: 12px 18px;
+    font-size: 0.95rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .navbar-container {
+    padding: 0 20px;
+    height: 75px;
+  }
+  
+  .brand-text {
+    font-size: 1.5rem;
+  }
+  
+  .heart-pulse-inline {
+    width: 50px;
+    height: 20px;
+  }
+  
+  .navbar-menu {
+    gap: 3px;
+  }
+  
+  .nav-button {
+    padding: 10px 14px;
+    font-size: 0.9rem;
+  }
+  
+  .nav-button span:not(.language-globe) {
+    display: none;
+  }
+  
+  .dropdown-icon,
+  .language-globe {
+    display: block !important;
+  }
+  
+  body {
+    padding-top: 75px;
+  }
+  
+  .login-container {
+    min-height: calc(100vh - 75px);
+  }
+}
+
+@media (max-width: 480px) {
+  .dropdown-menu {
+    right: -40px;
+    min-width: 200px;
+  }
+  
+  .login-card {
+    margin: 10px;
+    border-radius: 15px;
+  }
+  
+  .user-types-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .form-container {
+    padding: 30px 20px;
+  }
+}}

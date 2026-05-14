@@ -1,0 +1,6 @@
+admin
+admin@health.gov.sy
+admin123
+
+
+patient's and doctor's account can be created in the UI
