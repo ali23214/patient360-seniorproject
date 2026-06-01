@@ -1,0 +1,426 @@
+/* ════════════════════════════════════════════════════════════════════════
+   DrugRiskOverlay.css — Patient 360°  (Doctor Dashboard, Phase 3)
+   ────────────────────────────────────────────────────────────────────────
+   Styles for the "Drug Risk Confirmation Overlay" shown when the doctor
+   tries to add a high-risk medication to a visit. It's a real modal:
+   full-viewport backdrop + centered panel.
+
+   Namespace : dr-overlay-*   (Drug Risk Overlay)
+   Tokens    : var(--tm-*) only (Teal Medica system, RTL safe, dark-mode aware)
+
+   Structure :
+     .dr-overlay                    ── fixed backdrop
+       .dr-overlay-panel            ── centered modal card
+         .dr-overlay-header         ── colored header (high red / medium amber)
+           .dr-overlay-header-icon
+           .dr-overlay-header-titles
+             .dr-overlay-title
+             .dr-overlay-subtitle
+           .dr-overlay-close
+         .dr-overlay-body           ── scrollable content
+           .dr-overlay-field        ── one warning field (reason/advice/etc.)
+             [+ variants --warning, --interaction]
+           .dr-overlay-justification── textarea + counter
+         .dr-overlay-footer         ── action buttons
+           .dr-overlay-btn          [+ variants --secondary, --danger]
+   ════════════════════════════════════════════════════════════════════════ */
+
+
+/* ────────────────────────────────────────────────────────────────────────
+   Backdrop — covers the whole viewport, dims everything behind
+   ──────────────────────────────────────────────────────────────────────── */
+
+.dr-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  /* خلفية مظلمة احترافية للـ medical modal:
+     • لون رمادي-أزرق غامق (slate-900) يحاكي تطبيقات الـ EHR الاحترافية
+     • opacity 100% — لا تشوف أي شي وراها
+     • مريحة للعين (مش أسود نقي اللي بيكون قاسي) */
+  background: #0f172a;
+  animation: dr-overlay-fade-in 0.2s ease-out;
+}
+
+@keyframes dr-overlay-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+
+/* ────────────────────────────────────────────────────────────────────────
+   Panel — the actual modal card
+   ──────────────────────────────────────────────────────────────────────── */
+
+.dr-overlay-panel {
+  width: 100%;
+  max-width: 560px;
+  max-height: calc(100vh - 40px);
+  /* أبيض نقي صلب — مش متغير عشان نتأكد إنه ما في أي شفافية أو
+     اختلاط مع الـ backdrop المظلم. هاد المعيار الذهبي
+     للـ medical modals الاحترافية. */
+  background: #ffffff;
+  border-radius: 18px;
+  /* shadow أقوى مع طبقتين:
+     1) العمق العام (مظلل عميق)
+     2) حافة ضوئية ناعمة تبرز الـ panel من الخلفية */
+  box-shadow:
+    0 25px 70px -10px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.05);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  animation: dr-overlay-pop-in 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* توهج خفيف حول الـ panel حسب لون التحذير (HIGH/MEDIUM).
+   هذا يخلق إحساس "إنذار" بصري بدون ما يصير صارخ. */
+.dr-overlay-panel:has(.dr-overlay-header--high) {
+  box-shadow:
+    0 25px 70px -10px rgba(220, 38, 38, 0.35),
+    0 0 0 1px rgba(220, 38, 38, 0.15);
+}
+
+.dr-overlay-panel:has(.dr-overlay-header--medium) {
+  box-shadow:
+    0 25px 70px -10px rgba(217, 119, 6, 0.32),
+    0 0 0 1px rgba(217, 119, 6, 0.12);
+}
+
+@keyframes dr-overlay-pop-in {
+  from { opacity: 0; transform: translateY(10px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0)    scale(1);    }
+}
+
+
+/* ────────────────────────────────────────────────────────────────────────
+   Header — colored by risk level
+   ──────────────────────────────────────────────────────────────────────── */
+
+.dr-overlay-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px 22px;
+  color: #ffffff;
+  position: relative;
+}
+
+.dr-overlay-header--high   { background: linear-gradient(135deg, #DC2626 0%, #991B1B 100%); }
+.dr-overlay-header--medium { background: linear-gradient(135deg, #D97706 0%, #92400E 100%); }
+
+.dr-overlay-header-icon {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 12px;
+}
+
+.dr-overlay-header-titles {
+  flex: 1;
+  /* min-width: 0 يسمح للـ flex item ينضغط، لكن نحتاج overflow: visible
+     عشان نسمح للـ subtitle's <strong> أن يظهر بالكامل بدون قص */
+  min-width: 0;
+  overflow: visible;
+}
+
+.dr-overlay-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.dr-overlay-subtitle {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.92);
+  /* يلف النص لسطر جديد إذا اسم الدواء طويل بدل ما ينقص */
+  word-break: break-word;
+  overflow-wrap: anywhere;
+  line-height: 1.5;
+}
+
+.dr-overlay-subtitle strong {
+  font-weight: 700;
+  background: rgba(255, 255, 255, 0.18);
+  padding: 2px 10px;
+  border-radius: 6px;
+  /* inline (مش inline-block) عشان ما ينقص لو الـ container ضيق.
+     بهيك لو اسم الدواء طويل، يلف بشكل طبيعي مع المحاذاة. */
+  display: inline;
+  /* الاتجاه LTR للأسماء الإنجليزية، unicode-bidi: isolate يضمن
+     الكلمة تتعامل كوحدة مستقلة عن الـ RTL flow. */
+  unicode-bidi: isolate;
+}
+
+.dr-overlay-close {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  color: #ffffff;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.dr-overlay-close:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.dr-overlay-close:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+
+/* ────────────────────────────────────────────────────────────────────────
+   Body — scrollable
+   ──────────────────────────────────────────────────────────────────────── */
+
+.dr-overlay-body {
+  padding: 20px 22px 4px;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+
+/* Fields — reason, advice, warning, interaction */
+
+.dr-overlay-field {
+  /* الكروت الداخلية: لون رمادي-أبيض ناعم جداً يميزها عن الـ panel الأبيض */
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 12px 14px;
+}
+
+.dr-overlay-field-label {
+  margin: 0 0 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--tm-text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: 0.01em;
+}
+
+.dr-overlay-field-text {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--tm-text);
+}
+
+.dr-overlay-field--warning {
+  background: #FFFBEB;
+  border-color: #FCD34D;
+}
+.dr-overlay-field--warning .dr-overlay-field-label { color: #92400E; }
+.dr-overlay-field--warning .dr-overlay-field-text  { color: #78350F; }
+
+.dr-overlay-field--interaction {
+  background: #EEF2FF;
+  border-color: #C7D2FE;
+}
+.dr-overlay-field--interaction .dr-overlay-field-label { color: #3730A3; }
+.dr-overlay-field--interaction .dr-overlay-field-text  { color: #312E81; }
+
+
+/* Justification textarea */
+
+.dr-overlay-justification {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 6px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--tm-border);
+}
+
+.dr-overlay-justification-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--tm-text);
+}
+
+.dr-overlay-optional {
+  font-weight: 400;
+  color: var(--tm-text-tertiary);
+  font-size: 12px;
+}
+
+.dr-overlay-justification-input {
+  width: 100%;
+  padding: 10px 12px;
+  font-family: inherit;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: #0f172a;
+  background: #f8fafc;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 10px;
+  resize: vertical;
+  min-height: 60px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.dr-overlay-justification-input::placeholder {
+  color: var(--tm-text-tertiary);
+}
+
+.dr-overlay-justification-input:focus {
+  outline: none;
+  border-color: var(--tm-action);
+  box-shadow: 0 0 0 3px var(--tm-action-light);
+}
+
+.dr-overlay-justification-input:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.dr-overlay-justification-counter {
+  font-size: 11px;
+  color: var(--tm-text-tertiary);
+  align-self: flex-end;
+  font-variant-numeric: tabular-nums;
+}
+
+
+/* ────────────────────────────────────────────────────────────────────────
+   Footer — actions
+   ──────────────────────────────────────────────────────────────────────── */
+
+.dr-overlay-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 22px;
+  /* لون رمادي فاتح صلب — يفصل الـ footer عن الـ body بصرياً */
+  background: #f8fafc;
+  border-top: 1px solid #e2e8f0;
+  flex-wrap: wrap;
+}
+
+.dr-overlay-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 1.5px solid transparent;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.dr-overlay-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.dr-overlay-btn--secondary {
+  background: var(--tm-card);
+  color: var(--tm-text);
+  border-color: var(--tm-border);
+}
+
+.dr-overlay-btn--secondary:hover:not(:disabled) {
+  background: var(--tm-background);
+  border-color: var(--tm-text-tertiary);
+}
+
+.dr-overlay-btn--danger {
+  background: #DC2626;
+  color: #ffffff;
+  border-color: #DC2626;
+}
+
+.dr-overlay-btn--danger:hover:not(:disabled) {
+  background: #B91C1C;
+  border-color: #B91C1C;
+}
+
+
+/* ────────────────────────────────────────────────────────────────────────
+   Responsive — small screens
+   ──────────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 600px) {
+  .dr-overlay { padding: 12px; }
+  .dr-overlay-panel { border-radius: 14px; }
+  .dr-overlay-header { padding: 14px 16px; }
+  .dr-overlay-title { font-size: 16px; }
+  .dr-overlay-body { padding: 14px 16px 4px; }
+  .dr-overlay-footer {
+    padding: 12px 16px;
+    flex-direction: column-reverse;
+  }
+  .dr-overlay-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+
+/* ────────────────────────────────────────────────────────────────────────
+   Dark mode overrides
+   ──────────────────────────────────────────────────────────────────────── */
+
+[data-theme="dark"] .dr-overlay {
+  /* في الـ dark mode نزيد القتامة شوي */
+  background: #020617;
+}
+
+[data-theme="dark"] .dr-overlay-panel {
+  box-shadow:
+    0 25px 70px -10px rgba(0, 0, 0, 0.7),
+    0 0 0 1px rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="dark"] .dr-overlay-panel:has(.dr-overlay-header--high) {
+  box-shadow:
+    0 25px 70px -10px rgba(239, 68, 68, 0.45),
+    0 0 0 1px rgba(239, 68, 68, 0.2);
+}
+
+[data-theme="dark"] .dr-overlay-panel:has(.dr-overlay-header--medium) {
+  box-shadow:
+    0 25px 70px -10px rgba(245, 158, 11, 0.4),
+    0 0 0 1px rgba(245, 158, 11, 0.18);
+}
+
+[data-theme="dark"] .dr-overlay-field--warning {
+  background: rgba(120, 53, 15, 0.20);
+  border-color: rgba(245, 158, 11, 0.45);
+}
+[data-theme="dark"] .dr-overlay-field--warning .dr-overlay-field-label { color: #FCD34D; }
+[data-theme="dark"] .dr-overlay-field--warning .dr-overlay-field-text  { color: #FDE68A; }
+
+[data-theme="dark"] .dr-overlay-field--interaction {
+  background: rgba(67, 56, 202, 0.20);
+  border-color: rgba(129, 140, 248, 0.45);
+}
+[data-theme="dark"] .dr-overlay-field--interaction .dr-overlay-field-label { color: #A5B4FC; }
+[data-theme="dark"] .dr-overlay-field--interaction .dr-overlay-field-text  { color: #C7D2FE; }

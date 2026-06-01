@@ -1,0 +1,85 @@
+node_modules/
+.env
+.env.local
+uploads/
+
+frontend/src/styles/_backup_*/
+
+# ============================================================================
+# Flutter / Dart mobile app (patient360_mobile/)
+# ============================================================================
+
+# Build outputs
+patient360_mobile/build/
+patient360_mobile/.dart_tool/
+patient360_mobile/.flutter-plugins
+patient360_mobile/.flutter-plugins-dependencies
+patient360_mobile/.packages
+patient360_mobile/.pub-cache/
+patient360_mobile/.pub/
+patient360_mobile/pubspec.lock.bak
+
+# IDE / editor
+patient360_mobile/.idea/
+patient360_mobile/.vscode/
+patient360_mobile/*.iml
+patient360_mobile/*.ipr
+patient360_mobile/*.iws
+
+# Android build artifacts
+patient360_mobile/android/.gradle/
+patient360_mobile/android/build/
+patient360_mobile/android/app/build/
+patient360_mobile/android/local.properties
+patient360_mobile/android/key.properties
+patient360_mobile/android/**/*.jks
+patient360_mobile/android/**/*.keystore
+patient360_mobile/android/captures/
+patient360_mobile/android/**/.cxx/
+patient360_mobile/android/app/google-services.json
+
+# iOS build artifacts
+patient360_mobile/ios/Pods/
+patient360_mobile/ios/.symlinks/
+patient360_mobile/ios/Flutter/Flutter.framework
+patient360_mobile/ios/Flutter/Flutter.podspec
+patient360_mobile/ios/Flutter/flutter_export_environment.sh
+patient360_mobile/ios/Flutter/App.framework
+patient360_mobile/ios/Flutter/Generated.xcconfig
+patient360_mobile/ios/Flutter/ephemeral/
+patient360_mobile/ios/Runner/GeneratedPluginRegistrant.*
+patient360_mobile/ios/Runner.xcworkspace/xcuserdata/
+patient360_mobile/ios/Runner.xcodeproj/xcuserdata/
+patient360_mobile/ios/Runner.xcodeproj/project.xcworkspace/xcuserdata/
+patient360_mobile/ios/Runner/GoogleService-Info.plist
+
+# Mobile env and secrets
+patient360_mobile/.env
+patient360_mobile/.env.local
+patient360_mobile/.env.production
+
+# Mobile generated code (build_runner outputs we DO want to commit because they ship with source)
+# Note: *.g.dart and *.freezed.dart files are intentionally NOT ignored — they are checked in.
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# ============================================================================
+# Claude Code working state — never commit
+# ============================================================================
+.claude/
+
+# ============================================================================
+# Flutter linter logs
+# ============================================================================
+patient360_mobile/custom_lint.log
+patient360_mobile/*.log
+
+# ============================================================================
+# Firebase Service Account � Backend FCM (NEVER commit!)
+# ============================================================================
+backend/config/firebase-service-account.json
+backend/config/*firebase-adminsdk*.json
+**/firebase-service-account.json
+*-firebase-adminsdk-*.json

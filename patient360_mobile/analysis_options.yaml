@@ -1,0 +1,22 @@
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  plugins:
+    - custom_lint
+  exclude:
+    - '**/*.g.dart'
+    - '**/*.freezed.dart'
+    - '**/generated_plugin_registrant.dart'
+  language:
+    strict-casts: true
+    strict-inference: true
+    strict-raw-types: true
+
+linter:
+  rules:
+    prefer_const_constructors: true
+    prefer_const_declarations: true
+    require_trailing_commas: true
+    prefer_single_quotes: true
+    always_declare_return_types: true
+    unawaited_futures: true

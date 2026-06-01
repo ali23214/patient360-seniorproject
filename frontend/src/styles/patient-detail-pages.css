@@ -1,0 +1,1246 @@
+/* ══════════════════════════════════════════════════════════════════════
+   patient-detail-pages.css
+   ──────────────────────────────────────────────────────────────────────
+   Shared styling for the four Patient 360° detail pages:
+     • AppointmentDetailPage.jsx
+     • VisitDetailPage.jsx      (added in Stage 2)
+     • PrescriptionDetailPage.jsx (added in Stage 3)
+     • LabResultDetailPage.jsx  (added in Stage 4)
+
+   Namespace: dpg-*  (Detail Page Generic)
+   Inherits all design tokens from PatientDashboard.css (--tm-* / --pd-*).
+   Direction: RTL primary. Dark mode via [data-theme="dark"].
+
+   Layout philosophy (matches what Ali asked for):
+     - Simple and clear
+     - Centered single-column layout (no sidebar)
+     - One topbar with back button + theme toggle
+     - Stacked cards for each information group
+     - Sticky action bar at the bottom on mobile
+   ══════════════════════════════════════════════════════════════════════ */
+
+
+/* ── Page shell ─────────────────────────────────────────────────────── */
+
+.dpg-page {
+  min-height: 100vh;
+  background: var(--tm-background);
+  color: var(--tm-text-primary);
+  font-family: 'Cairo', 'Inter', system-ui, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── Top bar (back + theme toggle) ──────────────────────────────────── */
+
+.dpg-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: var(--pd-header-h, 64px);
+  padding: 0 24px;
+  background: var(--tm-card-bg);
+  border-bottom: 1px solid var(--tm-border);
+  box-shadow: var(--pd-shadow-sm);
+}
+
+.dpg-back-btn,
+.dpg-theme-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--tm-text-secondary);
+  background: transparent;
+  border: 1px solid var(--tm-border);
+  border-radius: var(--pd-radius-md);
+  cursor: pointer;
+  font-family: inherit;
+  transition: background var(--pd-transition), color var(--pd-transition), border-color var(--pd-transition);
+}
+.dpg-back-btn:hover,
+.dpg-theme-btn:hover {
+  background: var(--tm-surface);
+  color: var(--tm-action);
+  border-color: var(--tm-accent);
+}
+.dpg-theme-btn {
+  padding: 8px;
+}
+
+/* ── Main column ────────────────────────────────────────────────────── */
+
+.dpg-main {
+  flex: 1;
+  width: 100%;
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* ── Hero card ──────────────────────────────────────────────────────── */
+
+.dpg-hero {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 24px;
+  background: var(--tm-card-bg);
+  border: 1px solid var(--tm-border);
+  border-radius: var(--pd-radius-xl);
+  box-shadow: var(--pd-shadow-sm);
+}
+
+.dpg-hero-icon {
+  display: grid;
+  place-items: center;
+  width: 56px;
+  height: 56px;
+  border-radius: var(--pd-radius-lg);
+  background: var(--tm-surface);
+  color: var(--tm-action);
+  flex-shrink: 0;
+}
+
+.dpg-hero-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dpg-hero-title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--tm-text-primary);
+  line-height: 1.3;
+}
+
+.dpg-hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  font-size: 13px;
+  color: var(--tm-text-secondary);
+}
+
+.dpg-hero-meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+.dpg-hero-meta-item svg {
+  color: var(--tm-action);
+}
+
+.dpg-hero-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+/* ── Standard content card ──────────────────────────────────────────── */
+
+.dpg-card {
+  background: var(--tm-card-bg);
+  border: 1px solid var(--tm-border);
+  border-radius: var(--pd-radius-lg);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  box-shadow: var(--pd-shadow-sm);
+}
+
+.dpg-card-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding-bottom: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--tm-primary);
+  border-bottom: 1px solid var(--tm-border);
+}
+.dpg-card-title svg {
+  color: var(--tm-action);
+}
+
+/* Optional inline count badge inside a card title (e.g. "الأدوية الموصوفة 3") */
+.dpg-card-title-count {
+  display: inline-grid;
+  place-items: center;
+  min-width: 22px;
+  height: 20px;
+  padding: 0 8px;
+  margin-inline-start: auto;
+  border-radius: 999px;
+  background: var(--tm-surface);
+  color: var(--tm-action);
+  font-size: 11px;
+  font-weight: 600;
+}
+[data-theme="dark"] .dpg-card-title-count {
+  background: var(--tm-surface);
+  color: var(--tm-accent);
+}
+
+.dpg-card-text {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.7;
+  color: var(--tm-text-primary);
+  white-space: pre-wrap; /* preserve doctor's line breaks in notes */
+}
+
+/* ── Field list (definition list style) ─────────────────────────────── */
+
+.dpg-fields {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  /* Wider column gap (32px) to prevent Arabic values in adjacent columns
+     from visually running together. Tighter vertical gap (18px). */
+  column-gap: 32px;
+  row-gap: 18px;
+  margin: 0;
+}
+
+.dpg-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+  /* Subtle leading separator so columns are visually distinct even when
+     adjacent values are similar in length/script. Hidden on the first
+     column of each row via the JS-less :nth-child trick below. */
+  padding-inline-start: 16px;
+  border-inline-start: 1px solid var(--tm-border);
+}
+
+/* Hide the separator on the first column when the grid renders 1, 2, or
+   3 columns wide. nth-child rules cover the common breakpoints. */
+.dpg-field:nth-child(3n + 1),
+.dpg-field:nth-child(2n + 1) {
+  padding-inline-start: 0;
+  border-inline-start: none;
+}
+/* When only 1 column (mobile, see @media below) we re-enable the rule
+   below to flatten all separators. */
+
+.dpg-field dt {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--tm-text-secondary);
+  text-transform: none;
+  letter-spacing: 0.2px;
+  /* Reverse the inline flex so the LABEL TEXT sits at the inline-start
+     edge (right in RTL) and the ICON sits to its left. Without this,
+     the icon would hug the right edge and push the label text leftward,
+     making it misaligned with the value (dd) below — see the bug report
+     screenshots. */
+  flex-direction: row-reverse;
+  /* Keep the label flush with the cell's start edge — guarantees the
+     label text and the value's first character share the same x-coord. */
+  align-self: flex-start;
+}
+.dpg-field dt svg {
+  color: var(--tm-action);
+  opacity: 0.85;
+}
+
+.dpg-field dd {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--tm-text-primary);
+  line-height: 1.5;
+  word-break: break-word;
+  /* RTL layout: pin the value to the right side of the field column.
+     Without this, values that use dir="ltr" (dates, license numbers, IDs)
+     would inherit text-align: start which resolves to LEFT for LTR elements
+     — visually breaking the right-aligned column flow. */
+  text-align: right;
+}
+
+/* ── Action bar ─────────────────────────────────────────────────────── */
+
+.dpg-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 0 4px;
+  margin-top: 6px;
+  border-top: 1px solid var(--tm-border);
+}
+
+/* ── Loading + error states ─────────────────────────────────────────── */
+
+.dpg-loading {
+  flex: 1;
+  display: grid;
+  place-items: center;
+  padding: 60px 20px;
+}
+
+.dpg-error {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 60px 20px;
+  text-align: center;
+}
+.dpg-error svg {
+  color: var(--tm-warning);
+}
+.dpg-error h2 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--tm-text-primary);
+}
+.dpg-error p {
+  margin: 0;
+  font-size: 14px;
+  color: var(--tm-text-secondary);
+  max-width: 420px;
+}
+
+/* ── Dark mode ──────────────────────────────────────────────────────── */
+/* Aligned with PatientDashboard.css v3 dark scheme: very-dark page,
+   noticeably lighter cards, teal-tinted borders, real shadows. */
+
+[data-theme="dark"] .dpg-page {
+  background: #061418;
+  color: #ECF7F6;
+}
+
+[data-theme="dark"] .dpg-topbar {
+  background: #152529;
+  border-bottom: 1px solid rgba(77, 182, 172, 0.2);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.4);
+}
+
+[data-theme="dark"] .dpg-back-btn,
+[data-theme="dark"] .dpg-theme-btn {
+  background: transparent;
+  border-color: rgba(77, 182, 172, 0.25);
+  color: #ECF7F6;
+}
+[data-theme="dark"] .dpg-back-btn:hover,
+[data-theme="dark"] .dpg-theme-btn:hover {
+  background: rgba(77, 182, 172, 0.1);
+  color: var(--tm-accent);
+  border-color: var(--tm-accent);
+}
+
+[data-theme="dark"] .dpg-hero,
+[data-theme="dark"] .dpg-card {
+  background: #152529;
+  border: 1px solid rgba(77, 182, 172, 0.18);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35), 0 1px 2px rgba(0, 0, 0, 0.25);
+  color: #ECF7F6;
+}
+
+[data-theme="dark"] .dpg-hero-icon {
+  background: rgba(77, 182, 172, 0.15);
+  color: var(--tm-accent);
+}
+
+[data-theme="dark"] .dpg-card-title {
+  color: var(--tm-text-primary);
+  border-bottom-color: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="dark"] .dpg-field {
+  border-inline-start-color: rgba(255, 255, 255, 0.07);
+}
+
+[data-theme="dark"] .dpg-actions {
+  border-top-color: rgba(255, 255, 255, 0.08);
+}
+
+/* ── Responsive ─────────────────────────────────────────────────────── */
+
+@media (max-width: 768px) {
+  .dpg-topbar { padding: 0 16px; height: 56px; }
+  .dpg-main { padding: 16px; gap: 12px; }
+  .dpg-hero { padding: 18px; gap: 12px; }
+  .dpg-hero-icon { width: 48px; height: 48px; }
+  .dpg-hero-title { font-size: 18px; }
+  .dpg-card { padding: 16px; }
+  .dpg-card-title { font-size: 14px; }
+
+  /* On mobile the grid collapses to one column — kill all separators so
+     the fields read as a clean vertical list. */
+  .dpg-fields {
+    grid-template-columns: 1fr;
+    column-gap: 0;
+    row-gap: 14px;
+  }
+  .dpg-field {
+    padding-inline-start: 0;
+    border-inline-start: none;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--tm-border);
+  }
+  .dpg-field:last-child {
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+  [data-theme="dark"] .dpg-field {
+    border-bottom-color: rgba(255, 255, 255, 0.06);
+  }
+
+  .dpg-field dd { font-size: 14px; }
+  .dpg-actions { flex-direction: column; }
+  .dpg-actions .pd-btn { width: 100%; justify-content: center; }
+}
+
+/* Focus polish — keep parity with PatientDashboard */
+.dpg-page *:focus-visible {
+  outline: 2px solid var(--tm-action);
+  outline-offset: 2px;
+  border-radius: var(--pd-radius-sm);
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   Prescription-specific styles (banner + verification + medications)
+   Used by PrescriptionDetailPage.
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ── Success banner (dispensed prescription) ────────────────────────── */
+.dpg-banner {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 20px;
+  border-radius: var(--pd-radius-lg);
+  border: 1px solid transparent;
+}
+.dpg-banner--success {
+  background: rgba(56, 142, 60, 0.1);
+  border-color: rgba(56, 142, 60, 0.3);
+}
+.dpg-banner--success svg {
+  color: #2e7d32;
+  flex-shrink: 0;
+}
+.dpg-banner-body { flex: 1; }
+.dpg-banner-body h3 {
+  margin: 0 0 4px;
+  font-size: 16px;
+  font-weight: 700;
+  color: #1b5e20;
+}
+.dpg-banner-body p {
+  margin: 0;
+  font-size: 13px;
+  color: #2e7d32;
+  line-height: 1.6;
+}
+
+[data-theme="dark"] .dpg-banner--success {
+  background: rgba(102, 187, 106, 0.12);
+  border-color: rgba(102, 187, 106, 0.3);
+}
+[data-theme="dark"] .dpg-banner--success svg,
+[data-theme="dark"] .dpg-banner-body h3,
+[data-theme="dark"] .dpg-banner-body p {
+  color: #81c784;
+}
+
+/* ── Verification code card (pharmacy scan) ─────────────────────────── */
+.dpg-card--verification {
+  background: var(--tm-surface);
+  border-color: var(--tm-accent);
+}
+[data-theme="dark"] .dpg-card--verification {
+  background: var(--tm-surface);
+  border-color: var(--tm-accent);
+}
+
+.dpg-verification-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 16px;
+  align-items: stretch;
+}
+
+.dpg-verification-code {
+  background: var(--tm-card-bg);
+  border: 2px dashed var(--tm-accent);
+  border-radius: var(--pd-radius-lg);
+  padding: 24px 20px;
+  font-size: 38px;
+  font-weight: 700;
+  letter-spacing: 6px;
+  text-align: center;
+  color: var(--tm-primary);
+  font-family: 'Courier New', Consolas, monospace;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+[data-theme="dark"] .dpg-verification-code {
+  background: var(--tm-card-bg);
+  color: var(--tm-accent);
+}
+
+.dpg-verification-qr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  min-width: 120px;
+  padding: 16px;
+  background: var(--tm-card-bg);
+  border: 1px solid var(--tm-border);
+  border-radius: var(--pd-radius-lg);
+  color: var(--tm-action);
+  font-size: 11px;
+  font-weight: 500;
+}
+[data-theme="dark"] .dpg-verification-qr {
+  color: var(--tm-accent);
+}
+
+.dpg-verification-hint {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding-top: 4px;
+  font-size: 12.5px;
+  color: var(--tm-text-secondary);
+}
+.dpg-verification-hint svg {
+  color: var(--tm-action);
+  flex-shrink: 0;
+}
+
+/* ── Medications list (one card per drug) ───────────────────────────── */
+.dpg-meds-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dpg-med {
+  background: var(--tm-background);
+  border: 1px solid var(--tm-border);
+  border-radius: var(--pd-radius-lg);
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: border-color var(--pd-transition);
+}
+.dpg-med:hover {
+  border-color: var(--tm-accent);
+}
+.dpg-med.is-dispensed {
+  background: rgba(56, 142, 60, 0.05);
+  border-color: rgba(56, 142, 60, 0.25);
+}
+[data-theme="dark"] .dpg-med {
+  background: var(--tm-background);
+  border-color: var(--tm-border);
+}
+[data-theme="dark"] .dpg-med.is-dispensed {
+  background: rgba(102, 187, 106, 0.08);
+  border-color: rgba(102, 187, 106, 0.3);
+}
+
+.dpg-med-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+.dpg-med-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+.dpg-med-icon {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--pd-radius-md);
+  background: var(--tm-surface);
+  color: var(--tm-action);
+  flex-shrink: 0;
+}
+[data-theme="dark"] .dpg-med-icon {
+  background: var(--tm-surface);
+  color: var(--tm-accent);
+}
+.dpg-med-names {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.dpg-med-names strong {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--tm-text-primary);
+  line-height: 1.3;
+}
+.dpg-med-ar {
+  font-size: 12.5px;
+  color: var(--tm-text-secondary);
+  line-height: 1.4;
+}
+.dpg-med-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 10px;
+  font-size: 11.5px;
+  font-weight: 600;
+  background: rgba(56, 142, 60, 0.15);
+  color: #1b5e20;
+  border-radius: 999px;
+  flex-shrink: 0;
+}
+[data-theme="dark"] .dpg-med-badge {
+  background: rgba(102, 187, 106, 0.18);
+  color: #81c784;
+}
+
+.dpg-med-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 10px 16px;
+  margin: 4px 0 0;
+  padding: 10px 0 0;
+  border-top: 1px dashed var(--tm-border);
+}
+.dpg-med-field {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+.dpg-med-field dt {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--tm-text-secondary);
+  /* Same alignment fix as .dpg-field dt — keeps label text flush with
+     the value below it. */
+  flex-direction: row-reverse;
+  align-self: flex-start;
+}
+.dpg-med-field dt svg {
+  color: var(--tm-action);
+  opacity: 0.85;
+}
+.dpg-med-field dd {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--tm-text-primary);
+  line-height: 1.4;
+  /* Same RTL alignment fix as .dpg-field dd — see comment there. */
+  text-align: right;
+}
+
+.dpg-med-instructions {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  margin: 4px 0 0;
+  background: rgba(245, 124, 0, 0.08);
+  border-inline-start: 3px solid var(--tm-warning);
+  border-radius: var(--pd-radius-md);
+}
+.dpg-med-instructions svg {
+  color: var(--tm-warning);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+.dpg-med-instructions-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--tm-warning);
+  margin-bottom: 2px;
+}
+.dpg-med-instructions p {
+  margin: 0;
+  font-size: 13px;
+  color: var(--tm-text-primary);
+  line-height: 1.6;
+}
+[data-theme="dark"] .dpg-med-instructions {
+  background: rgba(255, 167, 38, 0.1);
+  border-inline-start-color: #ffa726;
+}
+[data-theme="dark"] .dpg-med-instructions svg,
+[data-theme="dark"] .dpg-med-instructions-label {
+  color: #ffb74d;
+}
+
+/* Responsive: stack verification code and QR vertically on mobile */
+@media (max-width: 640px) {
+  .dpg-verification-row { grid-template-columns: 1fr; }
+  .dpg-verification-code { font-size: 28px; letter-spacing: 4px; padding: 18px 14px; }
+  .dpg-verification-qr { width: 100%; min-width: 0; }
+  .dpg-med-grid { grid-template-columns: 1fr 1fr; }
+  .dpg-banner { flex-direction: column; text-align: center; gap: 10px; padding: 16px; }
+}
+
+
+/* ══════════════════════════════════════════════════════════════════════
+   Lab-result-specific styles (color-coded results + danger banner + stats)
+   Used by LabResultDetailPage.
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ── Danger banner (critical results) ────────────────────────────── */
+.dpg-banner--danger {
+  background: rgba(211, 47, 47, 0.08);
+  border-color: rgba(211, 47, 47, 0.3);
+}
+.dpg-banner--danger svg {
+  color: var(--tm-error);
+  flex-shrink: 0;
+}
+.dpg-banner--danger .dpg-banner-body h3 {
+  color: #b71c1c;
+}
+.dpg-banner--danger .dpg-banner-body p {
+  color: var(--tm-error);
+}
+[data-theme="dark"] .dpg-banner--danger {
+  background: rgba(239, 83, 80, 0.12);
+  border-color: rgba(239, 83, 80, 0.35);
+}
+[data-theme="dark"] .dpg-banner--danger svg,
+[data-theme="dark"] .dpg-banner--danger .dpg-banner-body h3,
+[data-theme="dark"] .dpg-banner--danger .dpg-banner-body p {
+  color: #ef9a9a;
+}
+
+/* ── Result summary stats (above the table) ───────────────────────── */
+.dpg-result-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+}
+.dpg-result-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  font-size: 12.5px;
+  font-weight: 600;
+  border-radius: 999px;
+}
+.dpg-result-stat--normal {
+  background: rgba(56, 142, 60, 0.12);
+  color: #1b5e20;
+}
+.dpg-result-stat--abnormal {
+  background: rgba(245, 124, 0, 0.14);
+  color: #b75300;
+}
+.dpg-result-stat--critical {
+  background: rgba(211, 47, 47, 0.12);
+  color: var(--tm-error);
+}
+[data-theme="dark"] .dpg-result-stat--normal {
+  background: rgba(102, 187, 106, 0.18);
+  color: #81c784;
+}
+[data-theme="dark"] .dpg-result-stat--abnormal {
+  background: rgba(255, 167, 38, 0.18);
+  color: #ffb74d;
+}
+[data-theme="dark"] .dpg-result-stat--critical {
+  background: rgba(239, 83, 80, 0.18);
+  color: #ef9a9a;
+}
+
+/* ── Results table ────────────────────────────────────────────────── */
+.dpg-results-wrap {
+  overflow-x: auto;
+  border-radius: var(--pd-radius-md);
+  border: 1px solid var(--tm-border);
+}
+.dpg-results-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13.5px;
+}
+.dpg-results-table thead {
+  background: var(--tm-surface);
+}
+.dpg-results-table th {
+  text-align: start;
+  padding: 12px 14px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--tm-primary);
+  border-bottom: 1px solid var(--tm-border);
+  white-space: nowrap;
+}
+.dpg-results-table td {
+  padding: 12px 14px;
+  color: var(--tm-text-primary);
+  border-bottom: 1px solid var(--tm-border);
+  vertical-align: middle;
+}
+.dpg-results-table tr:last-child td {
+  border-bottom: none;
+}
+.dpg-results-status-col {
+  width: 120px;
+}
+.dpg-result-unit {
+  color: var(--tm-text-secondary);
+  font-size: 12px;
+  font-weight: normal;
+}
+
+/* Color-coded rows — the core feature of Stage 4 */
+.dpg-result-row--normal {
+  background: var(--tm-card-bg);
+}
+.dpg-result-row--normal td:first-child {
+  border-inline-start: 3px solid #2e7d32;
+}
+
+.dpg-result-row--abnormal {
+  background: rgba(245, 124, 0, 0.05);
+}
+.dpg-result-row--abnormal td:first-child {
+  border-inline-start: 3px solid var(--tm-warning);
+}
+.dpg-result-row--abnormal td {
+  color: #8d4400;
+}
+
+.dpg-result-row--critical {
+  background: rgba(211, 47, 47, 0.06);
+  font-weight: 500;
+}
+.dpg-result-row--critical td:first-child {
+  border-inline-start: 4px solid var(--tm-error);
+}
+.dpg-result-row--critical td {
+  color: #b71c1c;
+}
+
+[data-theme="dark"] .dpg-result-row--normal {
+  background: var(--tm-card-bg);
+}
+[data-theme="dark"] .dpg-result-row--normal td:first-child {
+  border-inline-start-color: #81c784;
+}
+[data-theme="dark"] .dpg-result-row--abnormal {
+  background: rgba(255, 167, 38, 0.08);
+}
+[data-theme="dark"] .dpg-result-row--abnormal td {
+  color: #ffb74d;
+}
+[data-theme="dark"] .dpg-result-row--abnormal td:first-child {
+  border-inline-start-color: #ffa726;
+}
+[data-theme="dark"] .dpg-result-row--critical {
+  background: rgba(239, 83, 80, 0.12);
+}
+[data-theme="dark"] .dpg-result-row--critical td {
+  color: #ef9a9a;
+}
+[data-theme="dark"] .dpg-result-row--critical td:first-child {
+  border-inline-start-color: #ef5350;
+}
+
+/* Status pill inside a row */
+.dpg-result-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 9px;
+  font-size: 11.5px;
+  font-weight: 600;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+.dpg-result-row--normal .dpg-result-pill {
+  background: rgba(56, 142, 60, 0.12);
+  color: #1b5e20;
+}
+.dpg-result-row--abnormal .dpg-result-pill {
+  background: rgba(245, 124, 0, 0.18);
+  color: #b75300;
+}
+.dpg-result-row--critical .dpg-result-pill {
+  background: var(--tm-error);
+  color: #fff;
+}
+[data-theme="dark"] .dpg-result-row--normal .dpg-result-pill {
+  background: rgba(102, 187, 106, 0.2);
+  color: #81c784;
+}
+[data-theme="dark"] .dpg-result-row--abnormal .dpg-result-pill {
+  background: rgba(255, 167, 38, 0.22);
+  color: #ffb74d;
+}
+[data-theme="dark"] .dpg-result-row--critical .dpg-result-pill {
+  background: #ef5350;
+  color: #fff;
+}
+
+/* Mobile-friendly results table */
+@media (max-width: 640px) {
+  .dpg-results-table { font-size: 12.5px; }
+  .dpg-results-table th,
+  .dpg-results-table td { padding: 10px 8px; }
+  .dpg-results-status-col { width: auto; }
+  .dpg-result-stats { gap: 6px; }
+  .dpg-result-stat { font-size: 11.5px; padding: 4px 10px; }
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   MODAL SYSTEM — confirm dialogs & feedback toasts
+   ────────────────────────────────────────────────────────────────────
+   Used by AppointmentDetailPage's cancel-confirmation flow and its
+   success/error feedback. These classes were referenced in the JSX but
+   had no styles, so the modal rendered as an unstyled block stacked in
+   the page corner. This section gives them a proper centered overlay
+   that matches the Teal Medica design language used by .dpg-card.
+   ──────────────────────────────────────────────────────────────────── */
+
+/* Full-screen dimmed overlay that centers its child modal. Fixed
+   positioning + high z-index lifts it above all dashboard content. */
+.dpg-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(13, 59, 62, 0.45);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  animation: dpgOverlayIn 0.2s ease;
+}
+
+@keyframes dpgOverlayIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* The modal card itself. */
+.dpg-modal {
+  width: 100%;
+  max-width: 460px;
+  max-height: calc(100vh - 40px);
+  overflow-y: auto;
+  background: var(--tm-card-bg);
+  border: 1px solid var(--tm-border);
+  border-radius: var(--pd-radius-xl);
+  box-shadow: 0 24px 60px rgba(13, 59, 62, 0.28);
+  display: flex;
+  flex-direction: column;
+  animation: dpgModalIn 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  direction: rtl;
+}
+
+@keyframes dpgModalIn {
+  from { opacity: 0; transform: translateY(16px) scale(0.97); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* ── Header ─────────────────────────────────────────────────────────── */
+.dpg-modal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--tm-border);
+}
+
+.dpg-modal-title {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--tm-primary);
+}
+
+.dpg-modal-title svg {
+  color: var(--tm-error);
+  flex-shrink: 0;
+}
+
+.dpg-modal-close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: var(--pd-radius-md);
+  background: transparent;
+  color: var(--tm-text-secondary);
+  cursor: pointer;
+  transition: background var(--pd-transition), color var(--pd-transition);
+  flex-shrink: 0;
+}
+
+.dpg-modal-close:hover {
+  background: var(--tm-surface);
+  color: var(--tm-primary);
+}
+
+/* ── Body ───────────────────────────────────────────────────────────── */
+.dpg-modal-body {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.dpg-modal-lead {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.6;
+  color: var(--tm-text-primary);
+}
+
+/* ── Radio fieldset (cancellation reasons) ──────────────────────────── */
+.dpg-modal-fieldset {
+  border: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dpg-modal-fieldset legend {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--tm-text-secondary);
+  margin-bottom: 4px;
+  padding: 0;
+}
+
+.dpg-modal-radios {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.dpg-modal-radio {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  border: 1.5px solid var(--tm-border);
+  border-radius: var(--pd-radius-md);
+  cursor: pointer;
+  transition: border-color var(--pd-transition), background var(--pd-transition);
+  font-size: 14px;
+  color: var(--tm-text-primary);
+}
+
+.dpg-modal-radio:hover {
+  border-color: var(--tm-accent);
+  background: var(--tm-surface);
+}
+
+/* Highlight the row that contains the checked radio. */
+.dpg-modal-radio:has(input:checked) {
+  border-color: var(--tm-action);
+  background: rgba(0, 137, 123, 0.06);
+}
+
+[data-theme="dark"] .dpg-modal-radio:has(input:checked) {
+  background: rgba(77, 182, 172, 0.10);
+}
+
+.dpg-modal-radio input[type="radio"] {
+  width: 17px;
+  height: 17px;
+  accent-color: var(--tm-action);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* ── Optional notes textarea ────────────────────────────────────────── */
+.dpg-modal-textarea-label {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--tm-text-secondary);
+}
+
+.dpg-modal-textarea-label small {
+  font-weight: 500;
+  color: var(--tm-text-secondary);
+  opacity: 0.8;
+}
+
+.dpg-modal-textarea-label textarea {
+  width: 100%;
+  resize: vertical;
+  min-height: 76px;
+  padding: 11px 13px;
+  border: 1.5px solid var(--tm-border);
+  border-radius: var(--pd-radius-md);
+  background: var(--tm-background);
+  color: var(--tm-text-primary);
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.55;
+  transition: border-color var(--pd-transition);
+}
+
+.dpg-modal-textarea-label textarea:focus {
+  outline: none;
+  border-color: var(--tm-action);
+}
+
+/* ── Footer (action buttons) ────────────────────────────────────────── */
+.dpg-modal-foot {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 16px 20px;
+  border-top: 1px solid var(--tm-border);
+}
+
+/* ════════════════════════════════════════════════════════════════════
+   FEEDBACK TOAST (success / error after an action)
+   ──────────────────────────────────────────────────────────────────── */
+
+.dpg-feedback {
+  width: 100%;
+  max-width: 380px;
+  background: var(--tm-card-bg);
+  border: 1px solid var(--tm-border);
+  border-radius: var(--pd-radius-xl);
+  box-shadow: 0 24px 60px rgba(13, 59, 62, 0.28);
+  padding: 28px 24px 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+  animation: dpgModalIn 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+  direction: rtl;
+}
+
+.dpg-feedback-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dpg-feedback--success .dpg-feedback-icon {
+  background: rgba(56, 142, 60, 0.12);
+  color: #2e7d32;
+}
+
+.dpg-feedback--error .dpg-feedback-icon {
+  background: rgba(211, 47, 47, 0.12);
+  color: var(--tm-error);
+}
+
+.dpg-feedback p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--tm-text-primary);
+  font-weight: 500;
+}
+
+.dpg-feedback .pd-btn {
+  margin-top: 4px;
+  min-width: 120px;
+  justify-content: center;
+}
+
+/* ── Dark theme tweaks ──────────────────────────────────────────────── */
+[data-theme="dark"] .dpg-modal-overlay {
+  background: rgba(0, 0, 0, 0.6);
+}
+
+[data-theme="dark"] .dpg-modal,
+[data-theme="dark"] .dpg-feedback {
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] .dpg-feedback--success .dpg-feedback-icon {
+  background: rgba(102, 187, 106, 0.18);
+  color: #81c784;
+}
+
+[data-theme="dark"] .dpg-feedback--error .dpg-feedback-icon {
+  background: rgba(239, 83, 80, 0.18);
+  color: #ef5350;
+}
+
+/* ── Mobile ─────────────────────────────────────────────────────────── */
+@media (max-width: 640px) {
+  .dpg-modal-foot {
+    flex-direction: column-reverse;
+  }
+  .dpg-modal-foot .pd-btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* Respect reduced-motion preferences. */
+@media (prefers-reduced-motion: reduce) {
+  .dpg-modal-overlay,
+  .dpg-modal,
+  .dpg-feedback {
+    animation: none;
+  }
+}

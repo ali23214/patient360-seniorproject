@@ -1,0 +1,637 @@
+/* ════════════════════════════════════════════════════════════════════════
+   DrugRiskCheck.css — Patient 360°
+   ────────────────────────────────────────────────────────────────────────
+   Styles for the "فحص دواء" (Drug Risk Check) section in PatientDashboard.
+
+   Namespace: pd-dr-*  (PatientDashboard — Drug Risk)
+   Tokens   : var(--tm-*) only (Teal Medica system, RTL safe, dark-mode aware)
+
+   Layout sections:
+     .pd-dr                   ── outer wrapper (vertical stack)
+     .pd-dr-intro             ── header card with shield icon + description
+     .pd-dr-panel             ── main input + result area
+       .pd-dr-form            ── textarea + actions
+       .pd-dr-result-zone     ── empty / loading / result card
+       .pd-dr-result          ── risk card (tones: high/medium/low/unknown)
+     .pd-dr-history           ── past checks list
+
+   The card colors map to risk_level_ar values returned by Kinan's pipeline:
+     مرتفع       → high     (red)
+     متوسط       → medium   (amber)
+     منخفض       → low      (teal/green — "آمن نسبياً")
+     غير مؤكد    → unknown  (gray)
+     غير معروف   → unknown  (gray, plus "out-of-scope" note)
+   ════════════════════════════════════════════════════════════════════════ */
+
+
+/* ────────────────────────────────────────────────────────────────────────
+   Outer wrapper
+   ──────────────────────────────────────────────────────────────────────── */
+
+.pd-dr {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+}
+
+
+/* ────────────────────────────────────────────────────────────────────────
+   Intro card — sits at the top
+   ──────────────────────────────────────────────────────────────────────── */
+
+.pd-dr-intro {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px 24px;
+  background: var(--tm-surface);
+  border: 1px solid var(--tm-border);
+  border-radius: 16px;
+}
+
+.pd-dr-intro-icon {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--tm-action);
+  color: #ffffff;
+  border-radius: 12px;
+}
+
+.pd-dr-intro-text {
+  flex: 1;
+  min-width: 0;
+}
+
+.pd-dr-intro-title {
+  margin: 0 0 6px;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--tm-text);
+}
+
+.pd-dr-intro-desc {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--tm-text-secondary);
+}
+
+
+/* ────────────────────────────────────────────────────────────────────────
+   Main panel — form + result zone
+   ──────────────────────────────────────────────────────────────────────── */
+
+.pd-dr-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+  background: var(--tm-card);
+  border: 1px solid var(--tm-border);
+  border-radius: 16px;
+}
+
+
+/* ── Form ─────────────────────────────────────────────────────────────── */
+
+.pd-dr-form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.pd-dr-form-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--tm-text);
+}
+
+.pd-dr-form-textarea {
+  width: 100%;
+  padding: 14px 16px;
+  font-family: inherit;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--tm-text);
+  background: var(--tm-background);
+  border: 1.5px solid var(--tm-border);
+  border-radius: 12px;
+  resize: vertical;
+  min-height: 80px;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.pd-dr-form-textarea::placeholder {
+  color: var(--tm-text-tertiary);
+}
+
+.pd-dr-form-textarea:focus {
+  outline: none;
+  border-color: var(--tm-action);
+  box-shadow: 0 0 0 3px var(--tm-action-light);
+}
+
+.pd-dr-form-textarea:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.pd-dr-form-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.pd-dr-form-counter {
+  font-size: 12px;
+  color: var(--tm-text-tertiary);
+  font-variant-numeric: tabular-nums;
+}
+
+.pd-dr-form-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+
+/* ── Spinner ──────────────────────────────────────────────────────────── */
+
+.pd-dr-spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: pd-dr-spin 0.7s linear infinite;
+}
+
+.pd-dr-spinner--lg {
+  width: 28px;
+  height: 28px;
+  border-width: 3px;
+}
+
+@keyframes pd-dr-spin {
+  to { transform: rotate(360deg); }
+}
+
+
+/* ────────────────────────────────────────────────────────────────────────
+   Result zone — empty / loading / risk card
+   ──────────────────────────────────────────────────────────────────────── */
+
+.pd-dr-result-zone {
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.pd-dr-empty,
+.pd-dr-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 40px 20px;
+  text-align: center;
+  color: var(--tm-text-tertiary);
+  border: 2px dashed var(--tm-border);
+  border-radius: 14px;
+  background: var(--tm-background);
+}
+
+.pd-dr-empty p,
+.pd-dr-loading p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  max-width: 380px;
+}
+
+
+/* ────────────────────────────────────────────────────────────────────────
+   Risk result card — variants
+   ──────────────────────────────────────────────────────────────────────── */
+
+.pd-dr-result {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: 1.5px solid;
+  border-radius: 16px;
+  overflow: hidden;
+  animation: pd-dr-fade-in 0.2s ease-out;
+}
+
+@keyframes pd-dr-fade-in {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* — High (مرتفع) — red — */
+.pd-dr-result--high {
+  background: #FEF2F2;
+  border-color: #FCA5A5;
+}
+.pd-dr-result--high .pd-dr-result-icon { background: #DC2626; color: #fff; }
+.pd-dr-result--high .pd-dr-result-level { color: #991B1B; }
+
+/* — Medium (متوسط) — amber — */
+.pd-dr-result--medium {
+  background: #FFFBEB;
+  border-color: #FCD34D;
+}
+.pd-dr-result--medium .pd-dr-result-icon { background: #D97706; color: #fff; }
+.pd-dr-result--medium .pd-dr-result-level { color: #92400E; }
+
+/* — Low (منخفض) — teal/safe — */
+.pd-dr-result--low {
+  background: #ECFDF5;
+  border-color: #6EE7B7;
+}
+.pd-dr-result--low .pd-dr-result-icon { background: var(--tm-action); color: #fff; }
+.pd-dr-result--low .pd-dr-result-level { color: #065F46; }
+
+/* — Unknown (غير مؤكد / غير معروف) — gray — */
+.pd-dr-result--unknown {
+  background: var(--tm-surface);
+  border-color: var(--tm-border);
+}
+.pd-dr-result--unknown .pd-dr-result-icon {
+  background: var(--tm-text-tertiary);
+  color: #fff;
+}
+.pd-dr-result--unknown .pd-dr-result-level { color: var(--tm-text); }
+
+
+/* — Header — */
+.pd-dr-result-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 18px 20px 14px;
+}
+
+.pd-dr-result-icon {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+}
+
+.pd-dr-result-titles {
+  flex: 1;
+  min-width: 0;
+}
+
+.pd-dr-result-level {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.3;
+}
+
+.pd-dr-result-drug {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--tm-text-secondary);
+}
+
+.pd-dr-result-drug strong {
+  color: var(--tm-text);
+  font-weight: 600;
+  direction: ltr;
+  display: inline-block;
+}
+
+.pd-dr-result-time {
+  font-size: 11px;
+  color: var(--tm-text-tertiary);
+  flex-shrink: 0;
+}
+
+
+/* — Body — */
+.pd-dr-result-body {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 4px 20px 18px;
+}
+
+.pd-dr-result-field {
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+
+.pd-dr-result-field-label {
+  margin: 0 0 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--tm-text-secondary);
+  letter-spacing: 0.02em;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.pd-dr-result-field-value {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--tm-text);
+}
+
+.pd-dr-result-field--warning {
+  background: rgba(254, 215, 170, 0.5);
+}
+.pd-dr-result-field--warning .pd-dr-result-field-label { color: #9A3412; }
+
+.pd-dr-result-field--interaction {
+  background: rgba(199, 210, 254, 0.5);
+}
+.pd-dr-result-field--interaction .pd-dr-result-field-label { color: #3730A3; }
+
+.pd-dr-result-scope-note {
+  display: flex;
+  gap: 10px;
+  padding: 12px 14px;
+  background: rgba(0, 0, 0, 0.04);
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--tm-text-secondary);
+}
+
+.pd-dr-result-scope-note > :first-child {
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+
+/* — Footer — */
+.pd-dr-result-footer {
+  padding: 12px 20px;
+  background: rgba(0, 0, 0, 0.04);
+  border-top: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.pd-dr-result-disclaimer {
+  margin: 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 11.5px;
+  line-height: 1.5;
+  color: var(--tm-text-tertiary);
+}
+
+.pd-dr-result-disclaimer > :first-child {
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+
+/* ────────────────────────────────────────────────────────────────────────
+   History section
+   ──────────────────────────────────────────────────────────────────────── */
+
+.pd-dr-history {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 20px 24px;
+  background: var(--tm-card);
+  border: 1px solid var(--tm-border);
+  border-radius: 16px;
+}
+
+.pd-dr-history-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.pd-dr-history-title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--tm-text);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.pd-dr-history-title > svg {
+  color: var(--tm-text-secondary);
+}
+
+.pd-dr-history-loading,
+.pd-dr-history-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 32px 16px;
+  color: var(--tm-text-tertiary);
+  font-size: 14px;
+}
+
+.pd-dr-history-empty p { margin: 0; }
+
+
+/* ── History list ─────────────────────────────────────────────────────── */
+
+.pd-dr-history-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.pd-dr-history-item {
+  display: flex;
+  gap: 12px;
+  padding: 12px 14px;
+  background: var(--tm-background);
+  border: 1px solid var(--tm-border);
+  border-radius: 12px;
+  transition: background 0.12s ease;
+}
+
+.pd-dr-history-item:hover {
+  background: var(--tm-surface);
+}
+
+.pd-dr-history-icon {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  color: #fff;
+}
+
+.pd-dr-history-item--high    .pd-dr-history-icon { background: #DC2626; }
+.pd-dr-history-item--medium  .pd-dr-history-icon { background: #D97706; }
+.pd-dr-history-item--low     .pd-dr-history-icon { background: var(--tm-action); }
+.pd-dr-history-item--unknown .pd-dr-history-icon { background: var(--tm-text-tertiary); }
+
+.pd-dr-history-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.pd-dr-history-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+.pd-dr-history-drug {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--tm-text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.pd-dr-history-level {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.pd-dr-history-item--high    .pd-dr-history-level { background: #FEE2E2; color: #991B1B; }
+.pd-dr-history-item--medium  .pd-dr-history-level { background: #FEF3C7; color: #92400E; }
+.pd-dr-history-item--low     .pd-dr-history-level { background: #D1FAE5; color: #065F46; }
+.pd-dr-history-item--unknown .pd-dr-history-level { background: var(--tm-surface); color: var(--tm-text-secondary); }
+
+.pd-dr-history-reason {
+  margin: 0 0 4px;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--tm-text-secondary);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.pd-dr-history-time {
+  font-size: 11px;
+  color: var(--tm-text-tertiary);
+}
+
+
+/* ────────────────────────────────────────────────────────────────────────
+   Small responsive tweaks
+   ──────────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .pd-dr-intro {
+    padding: 16px 18px;
+  }
+  .pd-dr-intro-icon {
+    width: 40px;
+    height: 40px;
+  }
+  .pd-dr-intro-title {
+    font-size: 16px;
+  }
+  .pd-dr-panel,
+  .pd-dr-history {
+    padding: 16px 18px;
+  }
+  .pd-dr-result-header {
+    padding: 14px 16px 10px;
+  }
+  .pd-dr-result-body {
+    padding: 4px 16px 14px;
+  }
+}
+
+
+/* ────────────────────────────────────────────────────────────────────────
+   Dark mode overrides
+   The base Teal Medica tokens already auto-flip via [data-theme="dark"],
+   but the colored-card backgrounds (#FEF2F2 etc.) need explicit dark variants.
+   ──────────────────────────────────────────────────────────────────────── */
+
+[data-theme="dark"] .pd-dr-result--high {
+  background: rgba(127, 29, 29, 0.18);
+  border-color: rgba(239, 68, 68, 0.45);
+}
+[data-theme="dark"] .pd-dr-result--high .pd-dr-result-level { color: #FCA5A5; }
+
+[data-theme="dark"] .pd-dr-result--medium {
+  background: rgba(120, 53, 15, 0.18);
+  border-color: rgba(245, 158, 11, 0.45);
+}
+[data-theme="dark"] .pd-dr-result--medium .pd-dr-result-level { color: #FCD34D; }
+
+[data-theme="dark"] .pd-dr-result--low {
+  background: rgba(6, 78, 59, 0.18);
+  border-color: rgba(16, 185, 129, 0.45);
+}
+[data-theme="dark"] .pd-dr-result--low .pd-dr-result-level { color: #6EE7B7; }
+
+[data-theme="dark"] .pd-dr-result-field {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+[data-theme="dark"] .pd-dr-result-field--warning {
+  background: rgba(245, 158, 11, 0.12);
+}
+[data-theme="dark"] .pd-dr-result-field--warning .pd-dr-result-field-label {
+  color: #FCD34D;
+}
+
+[data-theme="dark"] .pd-dr-result-field--interaction {
+  background: rgba(99, 102, 241, 0.16);
+}
+[data-theme="dark"] .pd-dr-result-field--interaction .pd-dr-result-field-label {
+  color: #A5B4FC;
+}
+
+[data-theme="dark"] .pd-dr-result-scope-note,
+[data-theme="dark"] .pd-dr-result-footer {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+[data-theme="dark"] .pd-dr-history-item--high    .pd-dr-history-level {
+  background: rgba(127, 29, 29, 0.35); color: #FCA5A5;
+}
+[data-theme="dark"] .pd-dr-history-item--medium  .pd-dr-history-level {
+  background: rgba(120, 53, 15, 0.35); color: #FCD34D;
+}
+[data-theme="dark"] .pd-dr-history-item--low     .pd-dr-history-level {
+  background: rgba(6, 78, 59, 0.35); color: #6EE7B7;
+}
